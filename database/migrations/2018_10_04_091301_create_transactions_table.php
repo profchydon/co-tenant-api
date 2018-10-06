@@ -16,6 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('accepted_id')->unsigned();
+            $table->integer('tenant_id')->unsigned();
             $table->string('amount')->nullable();
             $table->string('date')->nullable();
             $table->string('expiry_date')->nullable();
@@ -24,6 +25,7 @@ class CreateTransactionsTable extends Migration
         });
 
         Schema::table('transactions', function($table) {
+          $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
           $table->foreign('accepted_id')->references('id')->on('accepted')->onDelete('cascade');
       });
     }

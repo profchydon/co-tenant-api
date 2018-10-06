@@ -11,6 +11,5 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+Route::post('/create' , 'UserController@create');
+Route::get('/users' , 'UserController@users');

@@ -18,7 +18,6 @@ class CreateOccupancyTable extends Migration
             $table->integer('property_id')->unsigned();
             $table->integer('number_of_rooms')->nullable();
             $table->integer('frequency')->nullable();
-
             $table->timestamps();
         });
 
