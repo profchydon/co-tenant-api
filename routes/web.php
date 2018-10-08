@@ -11,5 +11,52 @@
 |
 */
 
-Route::post('/create' , 'UserController@create');
-Route::get('/users' , 'UserController@users');
+// Tested and Confirmed
+Route::group(['prefix' => 'users'], function () {
+
+  Route::post('create' , 'UserController@create');
+  Route::get('' , 'UserController@users');
+  Route::get('{id}' , 'UserController@fetchAUser');
+  Route::post('update/{id}' , 'UserController@updateUser');
+
+});
+
+Route::group(['prefix' => 'tenants'], function () {
+
+  Route::post('create' , 'CotenantController@create');
+  Route::get('' , 'CotenantController@tenants');
+  Route::get('{id}' , 'CotenantController@fetchATenant');
+  Route::post('update/{id}' , 'CotenantController@updateTenant');
+
+});
+
+
+// Tested and Confirmed
+Route::group(['prefix' => 'properties'], function () {
+
+  Route::post('create' , 'PropertyController@create');
+  Route::get('' , 'PropertyController@properties');
+  Route::get('{id}' , 'PropertyController@fetchAProperty');
+  Route::post('update/{id}' , 'PropertyController@updateProperty');
+
+});
+
+// Tested and Confirmed
+Route::group(['prefix' => 'groups'], function () {
+
+  Route::post('create' , 'GroupController@create');
+  Route::get('' , 'GroupController@groups');
+  Route::get('{id}' , 'GroupController@fetchAGroup');
+  Route::post('update/{id}' , 'GroupController@updateGroup');
+
+});
+
+// Tested and Confirmed
+Route::group(['prefix' => 'verifications'], function () {
+
+  Route::post('create' , 'VerificationController@create');
+  Route::get('' , 'VerificationController@groups');
+  Route::get('{id}' , 'VerificationController@fetchAVerification');
+  Route::post('update' , 'VerificationController@updateVerification');
+
+});

@@ -3,30 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Http\Repositories\UserRepository;
+use App\Property;
+use App\Http\Repositories\PropertyRepository;
 
-class UserController extends Controller
+class PropertyController extends Controller
 {
     /**
-     * The User
+     * The Property
      *
      * @var object
      */
-    private $user;
+    private $property;
 
 
     /**
      * Class constructor
      */
-    public function __construct(UserRepository $user)
+    public function __construct(PropertyRepository $property)
     {
-        // Inject UserRepository Class into UserController
-        $this->user = $user;
+        // Inject PropertyRepository Class into PropertyController
+        $this->property = $property;
     }
 
     /**
-     * Create a  new User
+     * Create a  new Property
      *
      * @param object $request
      *
@@ -37,14 +37,14 @@ class UserController extends Controller
     {
         try {
 
-            // Call the create method of UserRepository
-            $user = $this->user->create($request);
+            // Call the create method of PropertyRepository
+            $property = $this->property->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $user
+                "data" => $property
             ];
 
             // return the custom in JSON format
@@ -67,22 +67,22 @@ class UserController extends Controller
 
 
     /**
-     * Fetch all existing Users
+     * Fetch all existing Properties
      *
      * @return JSON
      */
-    public function users ()
+    public function properties ()
     {
       try {
 
-        // Call the users method of UserRepository
-        $user = $this->user->users();
+        // Call the Properties method of PropertyRepository
+        $property = $this->property->properties();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $user
+            "data" => $property
         ];
 
         // return the custom in JSON format
@@ -105,26 +105,26 @@ class UserController extends Controller
 
 
     /**
-     * Fetch a User
+     * Fetch a Property
      *
      * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchAUser($id)
+    public function fetchAProperty($id)
     {
 
         try {
 
-          // Call the fetchAUser method of UserRepository
-          $user = $this->user->fetchAUser($id);
+          // Call the fetchAProperty method of PropertyRepository
+          $property = $this->property->fetchAProperty($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $user
+              "data" => $property
           ];
 
           // return the custom in JSON format
@@ -141,31 +141,22 @@ class UserController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
+
     }
 
-    /**
-     * Update a User
-     *
-     * @param int $id
-     *
-     * @param object $request
-     *
-     * @return JSON
-     *
-     */
-    public function updateUser($id , Request $request)
+    public function updateProperty($id , Request $request)
     {
 
       try {
 
-        // Call the updateUser method of UserRepository
-        $user = $this->user->updateUser($id, $request);
+        // Call the updateProperty method of PropertyRepository
+        $property = $this->property->updateProperty($id, $request);
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $user
+            "data" => $property
         ];
 
         // return the custom in JSON format

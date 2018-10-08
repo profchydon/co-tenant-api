@@ -3,30 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Http\Repositories\UserRepository;
+use App\Tenant;
+use App\Http\Repositories\TenantRepository;
 
-class UserController extends Controller
+class TenantController extends Controller
 {
+
     /**
-     * The User
+     * The Tenant
      *
      * @var object
      */
-    private $user;
+    private $tenant;
 
 
     /**
      * Class constructor
      */
-    public function __construct(UserRepository $user)
+    public function __construct(TenantRepository $tenant)
     {
-        // Inject UserRepository Class into UserController
-        $this->user = $user;
+        // Inject TenantRepository Class into TenantController
+        $this->tenant = $tenant;
     }
 
     /**
-     * Create a  new User
+     * Create a  new Tenant
      *
      * @param object $request
      *
@@ -37,14 +38,14 @@ class UserController extends Controller
     {
         try {
 
-            // Call the create method of UserRepository
-            $user = $this->user->create($request);
+            // Call the create method of TenantRepository
+            $tenant = $this->tenant->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $user
+                "data" => $tenant
             ];
 
             // return the custom in JSON format
@@ -67,22 +68,22 @@ class UserController extends Controller
 
 
     /**
-     * Fetch all existing Users
+     * Fetch all existing Tenants
      *
      * @return JSON
      */
-    public function users ()
+    public function tenants ()
     {
       try {
 
-        // Call the users method of UserRepository
-        $user = $this->user->users();
+        // Call the Tenants method of TenantRepository
+        $tenants = $this->tenant->tenants();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $user
+            "data" => $tenants
         ];
 
         // return the custom in JSON format
@@ -105,26 +106,26 @@ class UserController extends Controller
 
 
     /**
-     * Fetch a User
+     * Fetch a Tenant
      *
      * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchAUser($id)
+    public function fetchATenant($id)
     {
 
         try {
 
-          // Call the fetchAUser method of UserRepository
-          $user = $this->user->fetchAUser($id);
+          // Call the fetchATenant method of TenantRepository
+          $tenant = $this->tenant->fetchATenant($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $user
+              "data" => $tenant
           ];
 
           // return the custom in JSON format
@@ -141,31 +142,22 @@ class UserController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
+
     }
 
-    /**
-     * Update a User
-     *
-     * @param int $id
-     *
-     * @param object $request
-     *
-     * @return JSON
-     *
-     */
-    public function updateUser($id , Request $request)
+    public function updateTenant($id , Request $request)
     {
 
       try {
 
-        // Call the updateUser method of UserRepository
-        $user = $this->user->updateUser($id, $request);
+        // Call the updateTenant method of TenantRepository
+        $tenant = $this->tenant->updateTenant($id, $request);
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $user
+            "data" => $tenant
         ];
 
         // return the custom in JSON format

@@ -35,6 +35,7 @@ class CreateTenantsTable extends Migration
         Schema::table('tenants', function($table) {
           $table->foreign('user_id')->references('id')->on('users');
       });
+
     }
 
     /**

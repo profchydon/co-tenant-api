@@ -3,30 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Http\Repositories\UserRepository;
+use App\Verification;
+use App\Http\Repositories\VerificationRepository;
 
-class UserController extends Controller
+class VerificationController extends Controller
 {
     /**
-     * The User
+     * The Verification
      *
      * @var object
      */
-    private $user;
+    private $verification;
 
 
     /**
      * Class constructor
      */
-    public function __construct(UserRepository $user)
+    public function __construct(VerificationRepository $verification)
     {
-        // Inject UserRepository Class into UserController
-        $this->user = $user;
+        // Inject VeriRepository Class into VerificationController
+        $this->verification = $verification;
     }
 
     /**
-     * Create a  new User
+     * Create a  new Verification
      *
      * @param object $request
      *
@@ -35,16 +35,20 @@ class UserController extends Controller
      */
     public function create (Request $request)
     {
+
+      // Generate a random code
+      $code = str_random(7);
+
         try {
 
-            // Call the create method of UserRepository
-            $user = $this->user->create($request);
+            // Call the create method of VerificationRepository
+            $verification = $this->verification->create($request , $code);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $user
+                "data" => $verification
             ];
 
             // return the custom in JSON format
@@ -65,60 +69,21 @@ class UserController extends Controller
 
     }
 
-
     /**
-     * Fetch all existing Users
+     * Fetch a Verification
      *
-     * @return JSON
-     */
-    public function users ()
-    {
-      try {
-
-        // Call the users method of UserRepository
-        $user = $this->user->users();
-
-        // Create a custom response
-        $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $user
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-
-      } catch (\Exception $e) {
-
-        // Create a custom response
-        $response = [
-            "success" => false,
-            "status" => 502,
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-
-      }
-
-    }
-
-
-    /**
-     * Fetch a User
-     *
-     * @param int $id
+     * @param string $email
      *
      * @return JSON
      *
      */
-    public function fetchAUser($id)
+    public function fetchAVerification($email)
     {
 
         try {
 
-          // Call the fetchAUser method of UserRepository
-          $user = $this->user->fetchAUser($id);
+          // Call the fetchAVerification method of VerificationRepository
+          $user = $this->verification->fetchAVerification($email);
 
           // Create a custom response
           $response = [
@@ -144,28 +109,40 @@ class UserController extends Controller
     }
 
     /**
-     * Update a User
-     *
-     * @param int $id
+     * Update a Verification
      *
      * @param object $request
      *
      * @return JSON
      *
      */
-    public function updateUser($id , Request $request)
+    public function updateVerification(Request $request)
     {
+
+      // Generate a random code
+      $code = str_random(7);
 
       try {
 
-        // Call the updateUser method of UserRepository
-        $user = $this->user->updateUser($id, $request);
+        // Call the updateVerification method of VerificationRepository
+        $verification = $this->verification->updateVerification($request->email , $code);
+
+        if ($verification) {
+
+          // Fetch the updated data from the verification table
+          $verification = Verification::whereEmail($request->email)->first();
+
+        }else {
+
+          $verification = "Email does not exist";
+
+        }
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $user
+            "data" => $verification
         ];
 
         // return the custom in JSON format

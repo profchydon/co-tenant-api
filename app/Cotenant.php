@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class Tenant extends Model implements AuthenticatableContract, AuthorizableContract
+class Cotenant extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -21,4 +21,5 @@ class Tenant extends Model implements AuthenticatableContract, AuthorizableContr
          'user_id', 'co_gender', 'religion', 'co_religion', 'smoke', 'co_smoke', 'disabled', 'co_disabled', 'location_1', 'location_2', 'work', 'salary', 'rent', 'duration'
      ];
 
+    
 }
