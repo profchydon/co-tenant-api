@@ -3,31 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Cotenant;
-use App\Http\Repositories\CotenantRepository;
+use App\Transaction;
+use App\Http\Repositories\TransactionRepository;
 
-class CotenantController extends Controller
+class TransactionController extends Controller
 {
-
     /**
-     * The Tenant
+     * The Transaction
      *
      * @var object
      */
-    private $cotenant;
+    private $transaction;
 
 
     /**
      * Class constructor
      */
-    public function __construct(CotenantRepository $cotenant)
+    public function __construct(TransactionRepository $transaction)
     {
-        // Inject CoTenantRepository Class into CoTenantController
-        $this->cotenant = $cotenant;
+        // Inject TransactionRepository Class into TransactionController
+        $this->transaction = $transaction;
     }
 
     /**
-     * Create a  new Tenant
+     * Create a  new Transaction
      *
      * @param object $request
      *
@@ -38,14 +37,14 @@ class CotenantController extends Controller
     {
         try {
 
-            // Call the create method of CoTenantRepository
-            $cotenant = $this->cotenant->create($request);
+            // Call the create method of TransactionRepository
+            $transaction = $this->transaction->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $cotenant
+                "data" => $transaction
             ];
 
             // return the custom in JSON format
@@ -68,22 +67,22 @@ class CotenantController extends Controller
 
 
     /**
-     * Fetch all existing Tenants
+     * Fetch all existing Transaction
      *
      * @return JSON
      */
-    public function cotenants ()
+    public function transactions ()
     {
       try {
 
-        // Call the Tenants method of CoTenantRepository
-        $cotenants = $this->cotenant->cotenants();
+        // Call the transactions method of TransactionRepository
+        $transactions = $this->transaction->transactions();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $cotenants
+            "data" => $transactions
         ];
 
         // return the custom in JSON format
@@ -106,34 +105,26 @@ class CotenantController extends Controller
 
 
     /**
-     * Fetch a Tenant
+     * Fetch a Transaction
      *
      * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchACoTenant($id)
+    public function fetchATransaction($id)
     {
 
         try {
 
-          // Call the fetchACoTenant method of CoTenantRepository
-          $cotenant = $this->cotenant->fetchACoTenant($id);
-
-          // Check size of $tenant array to determine if there is a resource.
-          if (sizeof($cotenant) == 0) {
-
-              $cotenant = "No data found: Tenant does not exist";
-
-
-          }
+          // Call the fetchATransaction method of TransactionRepository
+          $transaction = $this->transaction->fetchATransaction($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $cotenant
+              "data" => $transaction
           ];
 
           // return the custom in JSON format
@@ -153,19 +144,19 @@ class CotenantController extends Controller
 
     }
 
-    public function updateCoTenant($id , Request $request)
+    public function updateTransaction($id , Request $request)
     {
 
       try {
 
-        // Call the updateTenant method of TenantRepository
-        $cotenant = $this->cotenant->updateCoTenant($id, $request);
+        // Call the updateTransaction method of TransactionRepository
+        $transaction = $this->transaction->updateTransaction($id, $request);
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $cotenant
+            "data" => $transaction
         ];
 
         // return the custom in JSON format

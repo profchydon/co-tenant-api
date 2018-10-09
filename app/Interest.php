@@ -18,7 +18,7 @@ class Interest extends Model implements AuthenticatableContract, AuthorizableCon
      * @var array
      */
     protected $fillable = [
-        'property_id', 'tenant_id'
+        'property_id', 'cotenant_id'
     ];
-  
+
 }

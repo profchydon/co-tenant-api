@@ -16,12 +16,12 @@ class CreateInterestsTable extends Migration
         Schema::create('interests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('property_id')->unsigned();
-            $table->integer('tenant_id')->unsigned();
+            $table->integer('cotenant_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('interests', function($table) {
-          $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
+          $table->foreign('cotenant_id')->references('id')->on('cotenants')->onDelete('cascade');
           $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
       });
     }

@@ -26,7 +26,7 @@ class CotenantRepository
       DB::beginTransaction();
 
       // Create the tenant
-      $tenant = Cotenant::create([
+      $cotenant = Cotenant::create([
         'user_id' => $request->user_id,
         'co_gender' => $request->co_gender,
         'religion' => $request->religion,
@@ -43,7 +43,7 @@ class CotenantRepository
         'duration' => $request->duration,
       ]);
 
-      if (!$tenant) {
+      if (!$cotenant) {
 
         // If creation of the tenant fails, roll back the database to its initial state
         DB::rollback();
@@ -54,7 +54,7 @@ class CotenantRepository
         DB::commit();
 
         // return the tenant created
-        return $tenant;
+        return $cotenant;
 
       }
 
@@ -66,13 +66,14 @@ class CotenantRepository
      * @return object $tenant
      *
      */
-    public function tenants()
+    public function cotenants()
     {
+
       // Fetch all tenants existing in the database
-      $tenants = Cotenant::leftjoin('users', 'users.id', '=', 'cotenants.user_id')->select('*')->get();
+      $cotenants = Cotenant::leftjoin('users', 'users.id', '=', 'cotenants.user_id')->select('*')->get();
 
       // return list of properties;
-      return $tenants;
+      return $cotenants;
 
     }
 
@@ -84,10 +85,10 @@ class CotenantRepository
      * @return object $tenant
      *
      */
-     public function fetchATenant($id)
+     public function fetchACoTenant($id)
      {
-        $tenant = Cotenant::where('cotenants.id', $id)->leftjoin('users', 'users.id', '=', 'cotenants.user_id')->select('*')->get();
-        return $tenant;
+        $cotenant = Cotenant::where('cotenants.id', $id)->leftjoin('users', 'users.id', '=', 'cotenants.user_id')->select('*')->get();
+        return $cotenant;
       }
 
 
@@ -100,16 +101,16 @@ class CotenantRepository
      * @return object $tenant
      *
      */
-    public function updateTenant($id, $request)
+    public function updateCoTenant($id, $request)
     {
         // Fetch tenant with $id from database
-        $tenant = Cotenant::findOrfail($id);
+        $cotenant = Cotenant::findOrfail($id);
 
         // Update tenant details
-        $tenant->update($request->all());
+        $cotenant->update($request->all());
 
         // return tenant
-        return $tenant;
+        return $cotenant;
 
     }
 

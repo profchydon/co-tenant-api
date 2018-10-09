@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
@@ -21,5 +22,5 @@ class Cotenant extends Model implements AuthenticatableContract, AuthorizableCon
          'user_id', 'co_gender', 'religion', 'co_religion', 'smoke', 'co_smoke', 'disabled', 'co_disabled', 'location_1', 'location_2', 'work', 'salary', 'rent', 'duration'
      ];
 
-    
+
 }

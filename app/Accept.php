@@ -18,7 +18,7 @@ class Accept extends Model implements AuthenticatableContract, AuthorizableContr
      * @var array
      */
     protected $fillable = [
-        'property_id', 'tenant_id', 'amount', 'date_initiated', 'date_paid', 'status'
+        'property_id', 'cotenant_id', 'amount', 'date_initiated', 'date_paid', 'status'
     ];
 
 }

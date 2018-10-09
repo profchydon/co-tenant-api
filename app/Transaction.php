@@ -18,7 +18,7 @@ class Transaction extends Model implements AuthenticatableContract, Authorizable
      * @var array
      */
     protected $fillable = [
-        'accepted_id', 'tenant_id', 'amount', 'date', 'expiry_date', 'count'
+        'accepted_id', 'cotenant_id', 'amount', 'date', 'expiry_date', 'count'
     ];
 
 }

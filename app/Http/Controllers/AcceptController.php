@@ -3,31 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Tenant;
-use App\Http\Repositories\TenantRepository;
+use App\Accept;
+use App\Http\Repositories\AcceptRepository;
 
-class TenantController extends Controller
+class AcceptController extends Controller
 {
-
     /**
-     * The Tenant
+     * The accept
      *
      * @var object
      */
-    private $tenant;
+    private $accept;
 
 
     /**
      * Class constructor
      */
-    public function __construct(TenantRepository $tenant)
+    public function __construct(AcceptRepository $accept)
     {
-        // Inject TenantRepository Class into TenantController
-        $this->tenant = $tenant;
+        // Inject AcceptRepository Class into AcceptController
+        $this->accept = $accept;
     }
 
     /**
-     * Create a  new Tenant
+     * Create a  new accept
      *
      * @param object $request
      *
@@ -38,14 +37,14 @@ class TenantController extends Controller
     {
         try {
 
-            // Call the create method of TenantRepository
-            $tenant = $this->tenant->create($request);
+            // Call the create method of AcceptRepository
+            $accept = $this->accept->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $tenant
+                "data" => $accept
             ];
 
             // return the custom in JSON format
@@ -68,22 +67,22 @@ class TenantController extends Controller
 
 
     /**
-     * Fetch all existing Tenants
+     * Fetch all existing accepts
      *
      * @return JSON
      */
-    public function tenants ()
+    public function accepts ()
     {
       try {
 
-        // Call the Tenants method of TenantRepository
-        $tenants = $this->tenant->tenants();
+        // Call the accepts method of AcceptRepository
+        $accept = $this->accept->accepts();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $tenants
+            "data" => $accept
         ];
 
         // return the custom in JSON format
@@ -106,26 +105,26 @@ class TenantController extends Controller
 
 
     /**
-     * Fetch a Tenant
+     * Fetch a accept
      *
      * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchATenant($id)
+    public function fetchAAccept($id)
     {
 
         try {
 
-          // Call the fetchATenant method of TenantRepository
-          $tenant = $this->tenant->fetchATenant($id);
+          // Call the fetchAAccept method of AcceptRepository
+          $accept = $this->accept->fetchAAccept($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $tenant
+              "data" => $accept
           ];
 
           // return the custom in JSON format
@@ -142,39 +141,6 @@ class TenantController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
-
-    }
-
-    public function updateTenant($id , Request $request)
-    {
-
-      try {
-
-        // Call the updateTenant method of TenantRepository
-        $tenant = $this->tenant->updateTenant($id, $request);
-
-        // Create a custom response
-        $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $tenant
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-
-      } catch (\Exception $e) {
-
-        // Create a custom response
-        $response = [
-            "success" => false,
-            "status" => 502,
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-      }
-
     }
 
 }

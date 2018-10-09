@@ -30,7 +30,6 @@ Route::group(['prefix' => 'tenants'], function () {
 
 });
 
-
 // Tested and Confirmed
 Route::group(['prefix' => 'properties'], function () {
 
@@ -58,5 +57,24 @@ Route::group(['prefix' => 'verifications'], function () {
   Route::get('' , 'VerificationController@groups');
   Route::get('{id}' , 'VerificationController@fetchAVerification');
   Route::post('update' , 'VerificationController@updateVerification');
+
+});
+
+// Tested and Confirmed
+Route::group(['prefix' => 'transactions'], function () {
+
+  Route::post('create' , 'TransactionController@create');
+  Route::get('' , 'TransactionController@transactions');
+  Route::get('{id}' , 'TransactionController@fetchATransaction');
+  Route::post('update' , 'TransactionController@updateTransaction');
+
+});
+
+// Tested and Confirmed
+Route::group(['prefix' => 'accepts'], function () {
+
+  Route::post('create' , 'AcceptController@create');
+  Route::get('' , 'AcceptController@accepts');
+  Route::get('{id}' , 'AcceptController@fetchAAccept');
 
 });

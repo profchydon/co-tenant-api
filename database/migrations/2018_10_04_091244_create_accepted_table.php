@@ -16,7 +16,7 @@ class CreateAcceptedTable extends Migration
         Schema::create('accepted', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('property_id')->unsigned();
-            $table->integer('tenant_id')->unsigned();
+            $table->integer('cotenant_id')->unsigned();
             $table->string('amount')->nullable();
             $table->string('date_initiated')->nullable();
             $table->string('date_paid')->nullable();
@@ -25,7 +25,7 @@ class CreateAcceptedTable extends Migration
         });
 
         Schema::table('accepted', function($table) {
-          $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
+          $table->foreign('cotenant_id')->references('id')->on('cotenants')->onDelete('cascade');
           $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
       });
     }
