@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAcceptedTable extends Migration
+class CreateAcceptsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAcceptedTable extends Migration
      */
     public function up()
     {
-        Schema::create('accepted', function (Blueprint $table) {
+        Schema::create('accepts', function (Blueprint $table) {
           $table->increments('id');
           $table->integer('property_id')->unsigned();
           $table->integer('cotenant_id')->unsigned();
@@ -34,6 +34,6 @@ class CreateAcceptedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accepted');
+        Schema::dropIfExists('accepts');
     }
 }

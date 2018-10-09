@@ -4,10 +4,10 @@ namespace App\Http\Repositories;
 
 use App\Transaction;
 use App\Accept;
+use App\Cotenant;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
-use DateTimeZone;
 
 /**
  *
@@ -28,14 +28,18 @@ class TransactionRepository
       // Begin a database transaction to create a transaction
       DB::beginTransaction();
 
-      $duration = 1;
+      // $duration = Cotenant::select('duration' , 'rent')->where('id' , $request->cotenant_id)->get();
+      // echo $duration->rent;
+      // die();
+      $duration = 2;
       $date = Carbon::now('Africa/Lagos');
       $expiry_date = Carbon::now('Africa/Lagos')->addYear($duration);
       $count = ($duration * 12) - 1;
 
+
       // Create the transaction
       $transaction = Transaction::create([
-        'accepted_id' => $request->accepted_id,
+        'accept_id' => $request->accept_id,
         'cotenant_id' => $request->cotenant_id,
         'amount' => $request->amount,
         'date' => $date,
@@ -50,7 +54,7 @@ class TransactionRepository
 
       }else {
 
-        $updateAccept = Accept::find($request->accepted_id);
+        $updateAccept = Accept::find($request->accept_id);
 
         $updateAccept->update(['date_paid'=> $date , 'status' => 'finalized']);
 

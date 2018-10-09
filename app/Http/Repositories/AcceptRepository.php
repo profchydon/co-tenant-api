@@ -30,6 +30,7 @@ class AcceptRepository
         'date_paid' => $date_paid,
         'status' => $status
       ]);
+      
 
       if (!$accept) {
         DB::rollback();

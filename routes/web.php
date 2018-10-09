@@ -21,12 +21,12 @@ Route::group(['prefix' => 'users'], function () {
 
 });
 
-Route::group(['prefix' => 'tenants'], function () {
+Route::group(['prefix' => 'cotenants'], function () {
 
   Route::post('create' , 'CotenantController@create');
-  Route::get('' , 'CotenantController@tenants');
-  Route::get('{id}' , 'CotenantController@fetchATenant');
-  Route::post('update/{id}' , 'CotenantController@updateTenant');
+  Route::get('' , 'CotenantController@cotenants');
+  Route::get('{id}' , 'CotenantController@fetchACoTenant');
+  Route::post('update/{id}' , 'CotenantController@updateCoTenant');
 
 });
 
@@ -67,6 +67,16 @@ Route::group(['prefix' => 'transactions'], function () {
   Route::get('' , 'TransactionController@transactions');
   Route::get('{id}' , 'TransactionController@fetchATransaction');
   Route::post('update' , 'TransactionController@updateTransaction');
+
+});
+
+// Tested and Confirmed
+Route::group(['prefix' => 'occupancy'], function () {
+
+  Route::post('create' , 'OccupancyController@create');
+  Route::get('' , 'OccupancyController@occupancies');
+  Route::get('{id}' , 'OccupancyController@fetchAOccupancy');
+  Route::post('update' , 'OccupancyController@updateOccupancy');
 
 });
 
