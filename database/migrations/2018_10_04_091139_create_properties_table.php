@@ -26,7 +26,7 @@ class CreatePropertiesTable extends Migration
             $table->string('living_room')->nullable();
             $table->string('number_of_rooms')->nullable();
             $table->string('additional_details')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default('Open')->nullable();
             $table->timestamps();
         });
     }

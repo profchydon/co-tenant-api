@@ -17,78 +17,74 @@ class OccupancyRepository
 
       DB::beginTransaction();
 
-      $user = User::create([
-        'email' => strtolower($request->email),
-        'first_name' => $request->first_name,
-        'last_name' => $request->last_name,
-        'gender' => $request->gender,
-        'phone_number' => $request->phone_number,
-        'user_group' => $request->user_group,
-        'active' => 0,
+      $occupancy = Occupancy::create([
+        'property_id' => $request->property_id,
+        'number_of_rooms' => $request->number_of_rooms,
+        'frequency' => $request->frequency,
       ]);
 
-      if (!$user) {
+      if (!$occupancy) {
         DB::rollback();
       }else {
         DB::commit();
-        return $user;
+        return $occupancy;
       }
 
     }
 
     /**
-     * Create all Users existing in the database
+     * Create all occupancys existing in the database
      *
-     * @return object $user
+     * @return object $occupancy
      *
      */
-    public function users()
+    public function occupancies()
     {
-      // Fetch all users existing in the database
-      $users = User::all();
+      // Fetch all occupancies existing in the database
+      $occupancies = Occupancy::all();
 
-      // return list of users;
-      return $users;
+      // return list of Occupancies;
+      return $occupancies;
 
     }
 
     /**
-     * Fetch a User
+     * Fetch a occupancy
      *
      * @param int $id
      *
-     * @return object $user
+     * @return object $occupancy
      *
      */
-    public function fetchAUser($id)
+    public function fetchAOccupancy($id)
     {
-      // Fetch user with $id from database
-      $user = User::findOrfail($id);
+      // Fetch Occupancy with $id from database
+      $occupancy = Occupancy::findOrfail($id);
 
-      // return user
-      return $user;
+      // return Occupancy
+      return $occupancy;
 
     }
 
     /**
-     * Update a User
+     * Update a occupancy
      *
      * @param int $id
      * @param object $request
      *
-     * @return object $user
+     * @return object $occupancy
      *
      */
-    public function updateUser ($id, $request)
+    public function updateOccupancy ($id, $request)
     {
-        // Fetch user with $id from database
-        $user = User::findOrfail($id);
+        // Fetch Occupancy with $id from database
+        $occupancy = Occupancy::findOrfail($id);
 
-        // Update user details
-        $user->update($request->all());
+        // Update Occupancy details
+        $occupancy->update($request->all());
 
-        // return user
-        return $user;
+        // return occupancy
+        return $occupancy;
 
     }
 

@@ -71,12 +71,12 @@ Route::group(['prefix' => 'transactions'], function () {
 });
 
 // Tested and Confirmed
-Route::group(['prefix' => 'occupancy'], function () {
+Route::group(['prefix' => 'occupanies'], function () {
 
   Route::post('create' , 'OccupancyController@create');
   Route::get('' , 'OccupancyController@occupancies');
   Route::get('{id}' , 'OccupancyController@fetchAOccupancy');
-  Route::post('update' , 'OccupancyController@updateOccupancy');
+  Route::post('update/{id}' , 'OccupancyController@updateOccupancy');
 
 });
 
@@ -86,5 +86,15 @@ Route::group(['prefix' => 'accepts'], function () {
   Route::post('create' , 'AcceptController@create');
   Route::get('' , 'AcceptController@accepts');
   Route::get('{id}' , 'AcceptController@fetchAAccept');
+
+});
+
+
+// Tested and Confirmed
+Route::group(['prefix' => 'interests'], function () {
+
+  Route::post('create' , 'InterestController@create');
+  Route::get('' , 'InterestController@interests');
+  Route::get('{id}' , 'InterestController@fetchAInterest');
 
 });

@@ -31,7 +31,7 @@ class TransactionRepository
       // $duration = Cotenant::select('duration' , 'rent')->where('id' , $request->cotenant_id)->get();
       // echo $duration->rent;
       // die();
-      $duration = 2;
+      $duration = 1;
       $date = Carbon::now('Africa/Lagos');
       $expiry_date = Carbon::now('Africa/Lagos')->addYear($duration);
       $count = ($duration * 12) - 1;

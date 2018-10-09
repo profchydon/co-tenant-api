@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOccupancyTable extends Migration
+class CreateOccupanciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateOccupancyTable extends Migration
      */
     public function up()
     {
-        Schema::create('occupancy', function (Blueprint $table) {
+        Schema::create('occupancies', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('property_id')->unsigned();
             $table->integer('number_of_rooms')->nullable();
@@ -31,6 +31,6 @@ class CreateOccupancyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('occupancy');
+        Schema::dropIfExists('occupancies');
     }
 }
