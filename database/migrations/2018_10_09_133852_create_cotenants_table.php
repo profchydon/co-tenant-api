@@ -29,12 +29,9 @@ class CreateCotenantsTable extends Migration
         $table->string('salary')->nullable();
         $table->string('rent')->nullable();
         $table->string('duration')->nullable();
+        $table->foreign('user_id')->references('id')->on('users');
         $table->timestamps();
       });
-
-      Schema::table('cotenants', function($table) {
-        $table->foreign('user_id')->references('id')->on('users');
-    });
     }
 
     /**

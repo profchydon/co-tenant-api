@@ -18,12 +18,10 @@ class CreateOccupancyTable extends Migration
             $table->integer('property_id')->unsigned();
             $table->integer('number_of_rooms')->nullable();
             $table->integer('frequency')->nullable();
+            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
             $table->timestamps();
         });
 
-        Schema::table('occupancy', function($table) {
-          $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
-      });
     }
 
     /**
