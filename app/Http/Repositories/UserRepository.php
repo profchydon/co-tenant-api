@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use DB;
 
+
 /**
  *
  */
@@ -16,15 +17,16 @@ class UserRepository
     {
 
       DB::beginTransaction();
-      
+
       $user = User::create([
         'email' => strtolower($request->email),
+        'password' => Hash::make($request->password),
         'first_name' => $request->first_name,
         'last_name' => $request->last_name,
         'gender' => $request->gender,
         'phone_number' => $request->phone_number,
         'user_group' => $request->user_group,
-        'active' => 0,
+        'active' => 0
       ]);
 
       if (!$user) {

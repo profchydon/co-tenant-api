@@ -22,7 +22,7 @@ class CreateTransactionsTable extends Migration
           $table->string('expiry_date')->nullable();
           $table->integer('count')->nullable();
           $table->foreign('cotenant_id')->references('id')->on('cotenants')->onDelete('cascade');
-          $table->foreign('accepts_id')->references('id')->on('accepts')->onDelete('cascade');
+          $table->foreign('accept_id')->references('id')->on('accepts')->onDelete('cascade');
           $table->timestamps();
         });
     }

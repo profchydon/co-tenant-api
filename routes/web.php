@@ -12,6 +12,13 @@
 */
 
 // Tested and Confirmed
+Route::group(['prefix' => 'auth'], function () {
+
+  Route::post('login' , 'AuthController@login');
+
+});
+
+// Tested and Confirmed
 Route::group(['prefix' => 'users'], function () {
 
   Route::post('create' , 'UserController@create');
@@ -31,7 +38,7 @@ Route::group(['prefix' => 'cotenants'], function () {
 });
 
 // Tested and Confirmed
-Route::group(['prefix' => 'properties'], function () {
+Route::group(['middleware' => 'auth' , 'prefix' => 'properties'], function () {
 
   Route::post('create' , 'PropertyController@create');
   Route::get('' , 'PropertyController@properties');
