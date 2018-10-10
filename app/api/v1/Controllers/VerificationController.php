@@ -167,6 +167,26 @@ class VerificationController extends Controller
 
       $verification = $this->verification->verifyUser($request->email, $request->code);
 
+      if ($verification == "Oops!!! Verification code does not match") {
+
+          $response = [
+              "success" => true,
+              "status" => 200,
+              "data" => $verification,
+          ];
+
+      }
+
+      if ($verification == "Sorry..No record found attached to this email") {
+
+        $response = [
+            "success" => true,
+            "status" => 200,
+            "data" => $verification,
+        ];
+
+      }
+
       if ($verification) {
 
           $updateUserActive = $this->verification->updateUserActive($request->email);
@@ -174,21 +194,13 @@ class VerificationController extends Controller
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $updateUserActive,
+              "data" => $verification,
           ];
 
-      }else {
-
-        $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => "Sorry..No record found attached to this email"
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-
       }
+
+      // return the custom in JSON format
+      return response()->json($response);
 
     }
 

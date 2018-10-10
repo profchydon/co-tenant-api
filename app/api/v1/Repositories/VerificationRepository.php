@@ -77,23 +77,25 @@ class VerificationRepository
       // Verify if provided email exists in database
       $checkIfEmailExists = Verification::whereEmail($email)->first();
 
-      if (empty($checkIfEmailExists)) {
+      if ($checkIfEmailExists == NULL) {
 
-        return $checkIfEmailExists = "Sorry..No record found attached to this email";
+          $checkIfEmailExists = "Sorry..No record found attached to this email";
 
       }else {
 
         if ($checkIfEmailExists->code == $code) {
 
-            return true;
+            $checkIfEmailExists = $checkIfEmailExists;
 
         }else {
 
-            return false;
+            $checkIfEmailExists = "Oops!!! Verification code does not match";
 
         }
 
       }
+
+      return $checkIfEmailExists;
 
     }
 
