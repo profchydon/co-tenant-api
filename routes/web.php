@@ -18,20 +18,19 @@ Route::group(['prefix' => 'auth'], function () {
 
 });
 
-// Tested and Confirmed
 Route::group(['prefix' => 'users'], function () {
 
-  Route::post('create' , 'UserController@create');
-  Route::get('' , 'UserController@users');
-  Route::get('{id}' , 'UserController@fetchAUser');
-  Route::post('update/{id}' , 'UserController@updateUser');
+  Route::post('create' , ['as' => 'createUser', 'uses' => 'UserController@create']);
+  Route::get('' , ['as' => 'allUsers', 'uses' => 'UserController@users']);
+  Route::get('{id}' , ['as' => 'fetchAuser', 'uses' => 'UserController@fetchAUser']);
+  Route::post('update/{id}' , ['as' => 'updateUser', 'uses' => 'UserController@updateUser']);
 
 });
 
-Route::group(['prefix' => 'cotenants'], function () {
+Route::group(['middleware' => 'auth' , 'prefix' => 'cotenants'], function () {
 
   Route::post('create' , 'CotenantController@create');
-  Route::get('' , 'CotenantController@cotenants');
+  // Route::get('' , 'CotenantController@cotenants');
   Route::get('{id}' , 'CotenantController@fetchACoTenant');
   Route::post('update/{id}' , 'CotenantController@updateCoTenant');
 
@@ -68,7 +67,7 @@ Route::group(['prefix' => 'verifications'], function () {
 });
 
 // Tested and Confirmed
-Route::group(['prefix' => 'transactions'], function () {
+Route::group(['middleware' => 'auth' , 'prefix' => 'transactions'], function () {
 
   Route::post('create' , 'TransactionController@create');
   Route::get('' , 'TransactionController@transactions');
@@ -78,7 +77,7 @@ Route::group(['prefix' => 'transactions'], function () {
 });
 
 // Tested and Confirmed
-Route::group(['prefix' => 'occupanies'], function () {
+Route::group(['middleware' => 'auth' , 'prefix' => 'occupanies'], function () {
 
   Route::post('create' , 'OccupancyController@create');
   Route::get('' , 'OccupancyController@occupancies');
@@ -88,7 +87,7 @@ Route::group(['prefix' => 'occupanies'], function () {
 });
 
 // Tested and Confirmed
-Route::group(['prefix' => 'accepts'], function () {
+Route::group(['middleware' => 'auth' , 'prefix' => 'accepts'], function () {
 
   Route::post('create' , 'AcceptController@create');
   Route::get('' , 'AcceptController@accepts');
@@ -98,7 +97,7 @@ Route::group(['prefix' => 'accepts'], function () {
 
 
 // Tested and Confirmed
-Route::group(['prefix' => 'interests'], function () {
+Route::group(['middleware' => 'auth' , 'prefix' => 'interests'], function () {
 
   Route::post('create' , 'InterestController@create');
   Route::get('' , 'InterestController@interests');

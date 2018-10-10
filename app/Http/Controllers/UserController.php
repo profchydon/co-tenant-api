@@ -23,6 +23,8 @@ class UserController extends Controller
     {
         // Inject UserRepository Class into UserController
         $this->user = $user;
+        $this->middleware('auth:api', ['except' => ['create']] );
+
     }
 
     /**

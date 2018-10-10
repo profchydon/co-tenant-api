@@ -5,6 +5,7 @@ namespace App\Http\Repositories;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Hash;
 
 
 /**

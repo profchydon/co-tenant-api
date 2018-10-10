@@ -6,14 +6,13 @@ use App\User;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Hash;
-use Ramsey\Uuid\Uuid;
+use Carbon\Carbon;
 
 /**
  *
  */
 class AuthRepository
 {
-
 
   /**
   * Check user credentials
@@ -27,13 +26,17 @@ class AuthRepository
 
       if(Hash::check($request->password, $user->password)) {
 
-       $apikey = str_random(150);
+          $date = Carbon::now('');
 
-       User::where('email', $request->email)->update(['api_key' => $apikey]);
+          $hash = Hash::make($date);
 
-       $user = User::whereEmail($request->email)->get();
+          $apikey = str_random(50)."".$hash."".str_random(150);
 
-       return $user;
+          User::where('email', $request->email)->update(['api_key' => $apikey]);
+
+          $user = User::whereEmail($request->email)->get();
+
+          return $user;
 
       }else{
 
