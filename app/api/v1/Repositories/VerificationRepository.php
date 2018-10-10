@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Api\v1\Repositories;
 
 use App\Verification;
+use App\User;
 use Illuminate\Http\Request;
 use DB;
 
@@ -70,6 +71,48 @@ class VerificationRepository
         return $verification;
     }
 
+    public function verifyUser($email, $code)
+    {
+
+      // Verify if provided email exists in database
+      $checkIfEmailExists = Verification::whereEmail($email)->first();
+
+      if (empty($checkIfEmailExists)) {
+
+        return $checkIfEmailExists = "Sorry..No record found attached to this email";
+
+      }else {
+
+        if ($checkIfEmailExists->code == $code) {
+
+            return true;
+
+        }else {
+
+            return false;
+
+        }
+
+      }
+
+    }
+
+    public function updateUserActive($email)
+    {
+
+      $updateUserActive = User::where('email', $email)->update(['active' => 1]);
+
+      if ($updateUserActive) {
+
+          return true;
+
+      }else {
+
+          return false;
+
+      }
+
+    }
 
 }
 

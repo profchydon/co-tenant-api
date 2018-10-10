@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Repositories\OccupancyRepository;
+use App\Api\v1\Repositories\OccupancyRepository;
 
 class OccupancyController extends Controller
 {

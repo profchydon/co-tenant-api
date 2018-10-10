@@ -63,6 +63,7 @@ Route::group(['prefix' => 'verifications'], function () {
   Route::get('' , 'VerificationController@groups');
   Route::get('{id}' , 'VerificationController@fetchAVerification');
   Route::post('update' , 'VerificationController@updateVerification');
+  Route::post('user/verify' , 'VerificationController@verifyUser');
 
 });
 

@@ -1,33 +1,43 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
-use App\Cotenant;
-use App\Http\Repositories\CotenantRepository;
+use App\User;
+use App\Api\v1\Repositories\UserRepository;
+use App\Api\v1\Repositories\VerificationRepository;
 
-class CotenantController extends Controller
+
+class UserController extends Controller
 {
-
     /**
-     * The Tenant
+     * The User
      *
      * @var object
      */
-    private $cotenant;
+    private $user;
 
+    /**
+     * The Verification
+     *
+     * @var object
+     */
+    private $verification;
 
     /**
      * Class constructor
      */
-    public function __construct(CotenantRepository $cotenant)
+    public function __construct(UserRepository $user , VerificationRepository $verification)
     {
-        // Inject CoTenantRepository Class into CoTenantController
-        $this->cotenant = $cotenant;
+        // Inject UserRepository Class into UserController
+        $this->user = $user;
+        $this->verification = $verification;
+        // $this->middleware('auth:api', ['except' => ['create']] );
+
     }
 
     /**
-     * Create a  new Tenant
+     * Create a  new User
      *
      * @param object $request
      *
@@ -38,14 +48,30 @@ class CotenantController extends Controller
     {
         try {
 
-            // Call the create method of CoTenantRepository
-            $cotenant = $this->cotenant->create($request);
+            // Call the create method of UserRepository
+            $user = $this->user->create($request);
+
+            if ($user) {
+
+                // Generate a random code for verification
+                $code = rand(10000 , 99999);
+
+                // Send verification code here
+                // Code goes Here
+
+                // Save verification code and email to verification table
+                $verification = $this->verification->create($request, $code);
+
+            }
+
+            $data['user'] = $user;
+            $data['verification'] = $verification;
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $cotenant
+                "data" => $data
             ];
 
             // return the custom in JSON format
@@ -68,22 +94,22 @@ class CotenantController extends Controller
 
 
     /**
-     * Fetch all existing Tenants
+     * Fetch all existing Users
      *
      * @return JSON
      */
-    public function cotenants ()
+    public function users ()
     {
       try {
 
-        // Call the Tenants method of CoTenantRepository
-        $cotenants = $this->cotenant->cotenants();
+        // Call the users method of UserRepository
+        $user = $this->user->users();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $cotenants
+            "data" => $user
         ];
 
         // return the custom in JSON format
@@ -106,34 +132,26 @@ class CotenantController extends Controller
 
 
     /**
-     * Fetch a Tenant
+     * Fetch a User
      *
      * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchACoTenant($id)
+    public function fetchAUser($id)
     {
 
         try {
 
-          // Call the fetchACoTenant method of CoTenantRepository
-          $cotenant = $this->cotenant->fetchACoTenant($id);
-
-          // Check size of $tenant array to determine if there is a resource.
-          if (sizeof($cotenant) == 0) {
-
-              $cotenant = "No data found: Tenant does not exist";
-
-
-          }
+          // Call the fetchAUser method of UserRepository
+          $user = $this->user->fetchAUser($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $cotenant
+              "data" => $user
           ];
 
           // return the custom in JSON format
@@ -150,22 +168,31 @@ class CotenantController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
-
     }
 
-    public function updateCoTenant($id , Request $request)
+    /**
+     * Update a User
+     *
+     * @param int $id
+     *
+     * @param object $request
+     *
+     * @return JSON
+     *
+     */
+    public function updateUser($id , Request $request)
     {
 
       try {
 
-        // Call the updateTenant method of TenantRepository
-        $cotenant = $this->cotenant->updateCoTenant($id, $request);
+        // Call the updateUser method of UserRepository
+        $user = $this->user->updateUser($id, $request);
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $cotenant
+            "data" => $user
         ];
 
         // return the custom in JSON format

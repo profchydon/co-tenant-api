@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Api\v1\Repositories;
 
 use App\Group;
 use Illuminate\Http\Request;

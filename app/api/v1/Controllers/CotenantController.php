@@ -1,31 +1,33 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
-use App\Interest;
-use App\Http\Repositories\InterestRepository;
+use App\Cotenant;
+use App\Api\v1\Repositories\CotenantRepository;
 
-class InterestController extends Controller
+class CotenantController extends Controller
 {
+
     /**
-     * The Interest
+     * The Tenant
      *
      * @var object
      */
-    private $interest;
+    private $cotenant;
+
 
     /**
      * Class constructor
      */
-    public function __construct(InterestRepository $interest)
+    public function __construct(CotenantRepository $cotenant)
     {
-        // Inject InterestRepository Class into InterestController
-        $this->interest = $interest;
+        // Inject CoTenantRepository Class into CoTenantController
+        $this->cotenant = $cotenant;
     }
 
     /**
-     * Create a  new Interest
+     * Create a  new Tenant
      *
      * @param object $request
      *
@@ -36,14 +38,14 @@ class InterestController extends Controller
     {
         try {
 
-            // Call the create method of InterestRepository
-            $interest = $this->interest->create($request);
+            // Call the create method of CoTenantRepository
+            $cotenant = $this->cotenant->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $interest
+                "data" => $cotenant
             ];
 
             // return the custom in JSON format
@@ -66,22 +68,22 @@ class InterestController extends Controller
 
 
     /**
-     * Fetch all existing Interest
+     * Fetch all existing Tenants
      *
      * @return JSON
      */
-    public function interests ()
+    public function cotenants ()
     {
       try {
 
-        // Call the interests method of InterestRepository
-        $interests = $this->interest->interests();
+        // Call the Tenants method of CoTenantRepository
+        $cotenants = $this->cotenant->cotenants();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $interests,
+            "data" => $cotenants
         ];
 
         // return the custom in JSON format
@@ -104,26 +106,34 @@ class InterestController extends Controller
 
 
     /**
-     * Fetch a User
+     * Fetch a Tenant
      *
      * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchAInterest($id)
+    public function fetchACoTenant($id)
     {
 
         try {
 
-          // Call the fetchAInterest method of InterestRepository
-          $interests = $this->interest->fetchAInterest($id);
+          // Call the fetchACoTenant method of CoTenantRepository
+          $cotenant = $this->cotenant->fetchACoTenant($id);
+
+          // Check size of $tenant array to determine if there is a resource.
+          if (sizeof($cotenant) == 0) {
+
+              $cotenant = "No data found: Tenant does not exist";
+
+
+          }
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $interests
+              "data" => $cotenant
           ];
 
           // return the custom in JSON format
@@ -140,8 +150,40 @@ class InterestController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
+
     }
 
+    public function updateCoTenant($id , Request $request)
+    {
+
+      try {
+
+        // Call the updateTenant method of TenantRepository
+        $cotenant = $this->cotenant->updateCoTenant($id, $request);
+
+        // Create a custom response
+        $response = [
+            "success" => true,
+            "status" => 200,
+            "data" => $cotenant
+        ];
+
+        // return the custom in JSON format
+        return response()->json($response);
+
+      } catch (\Exception $e) {
+
+        // Create a custom response
+        $response = [
+            "success" => false,
+            "status" => 502,
+        ];
+
+        // return the custom in JSON format
+        return response()->json($response);
+      }
+
+    }
 
 }
 

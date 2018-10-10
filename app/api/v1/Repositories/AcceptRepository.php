@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Api\v1\Repositories;
 
 use App\Accept;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class AcceptRepository
         'date_paid' => $date_paid,
         'status' => $status
       ]);
-      
+
 
       if (!$accept) {
         DB::rollback();

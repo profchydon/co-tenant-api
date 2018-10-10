@@ -1,34 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Http\Repositories\UserRepository;
+use App\Interest;
+use App\Api\v1\Repositories\InterestRepository;
 
-class UserController extends Controller
+class InterestController extends Controller
 {
     /**
-     * The User
+     * The Interest
      *
      * @var object
      */
-    private $user;
-
+    private $interest;
 
     /**
      * Class constructor
      */
-    public function __construct(UserRepository $user)
+    public function __construct(InterestRepository $interest)
     {
-        // Inject UserRepository Class into UserController
-        $this->user = $user;
-        $this->middleware('auth:api', ['except' => ['create']] );
-
+        // Inject InterestRepository Class into InterestController
+        $this->interest = $interest;
     }
 
     /**
-     * Create a  new User
+     * Create a  new Interest
      *
      * @param object $request
      *
@@ -39,14 +36,14 @@ class UserController extends Controller
     {
         try {
 
-            // Call the create method of UserRepository
-            $user = $this->user->create($request);
+            // Call the create method of InterestRepository
+            $interest = $this->interest->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $user
+                "data" => $interest
             ];
 
             // return the custom in JSON format
@@ -69,22 +66,22 @@ class UserController extends Controller
 
 
     /**
-     * Fetch all existing Users
+     * Fetch all existing Interest
      *
      * @return JSON
      */
-    public function users ()
+    public function interests ()
     {
       try {
 
-        // Call the users method of UserRepository
-        $user = $this->user->users();
+        // Call the interests method of InterestRepository
+        $interests = $this->interest->interests();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $user
+            "data" => $interests,
         ];
 
         // return the custom in JSON format
@@ -114,19 +111,19 @@ class UserController extends Controller
      * @return JSON
      *
      */
-    public function fetchAUser($id)
+    public function fetchAInterest($id)
     {
 
         try {
 
-          // Call the fetchAUser method of UserRepository
-          $user = $this->user->fetchAUser($id);
+          // Call the fetchAInterest method of InterestRepository
+          $interests = $this->interest->fetchAInterest($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $user
+              "data" => $interests
           ];
 
           // return the custom in JSON format
@@ -145,47 +142,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Update a User
-     *
-     * @param int $id
-     *
-     * @param object $request
-     *
-     * @return JSON
-     *
-     */
-    public function updateUser($id , Request $request)
-    {
-
-      try {
-
-        // Call the updateUser method of UserRepository
-        $user = $this->user->updateUser($id, $request);
-
-        // Create a custom response
-        $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $user
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-
-      } catch (\Exception $e) {
-
-        // Create a custom response
-        $response = [
-            "success" => false,
-            "status" => 502,
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-      }
-
-    }
 
 }
 

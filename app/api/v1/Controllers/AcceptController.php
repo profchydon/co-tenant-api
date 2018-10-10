@@ -1,32 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
-use App\Transaction;
-use App\Http\Repositories\TransactionRepository;
+use App\Accept;
+use App\Api\v1\Repositories\AcceptRepository;
 
-class TransactionController extends Controller
+class AcceptController extends Controller
 {
     /**
-     * The Transaction
+     * The accept
      *
      * @var object
      */
-    private $transaction;
+    private $accept;
 
 
     /**
      * Class constructor
      */
-    public function __construct(TransactionRepository $transaction)
+    public function __construct(AcceptRepository $accept)
     {
-        // Inject TransactionRepository Class into TransactionController
-        $this->transaction = $transaction;
+        // Inject AcceptRepository Class into AcceptController
+        $this->accept = $accept;
     }
 
     /**
-     * Create a  new Transaction
+     * Create a  new accept
      *
      * @param object $request
      *
@@ -37,14 +37,14 @@ class TransactionController extends Controller
     {
         try {
 
-            // Call the create method of TransactionRepository
-            $transaction = $this->transaction->create($request);
+            // Call the create method of AcceptRepository
+            $accept = $this->accept->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $transaction
+                "data" => $accept
             ];
 
             // return the custom in JSON format
@@ -67,22 +67,22 @@ class TransactionController extends Controller
 
 
     /**
-     * Fetch all existing Transaction
+     * Fetch all existing accepts
      *
      * @return JSON
      */
-    public function transactions ()
+    public function accepts ()
     {
       try {
 
-        // Call the transactions method of TransactionRepository
-        $transactions = $this->transaction->transactions();
+        // Call the accepts method of AcceptRepository
+        $accept = $this->accept->accepts();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $transactions
+            "data" => $accept
         ];
 
         // return the custom in JSON format
@@ -105,26 +105,26 @@ class TransactionController extends Controller
 
 
     /**
-     * Fetch a Transaction
+     * Fetch a accept
      *
      * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchATransaction($id)
+    public function fetchAAccept($id)
     {
 
         try {
 
-          // Call the fetchATransaction method of TransactionRepository
-          $transaction = $this->transaction->fetchATransaction($id);
+          // Call the fetchAAccept method of AcceptRepository
+          $accept = $this->accept->fetchAAccept($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $transaction
+              "data" => $accept
           ];
 
           // return the custom in JSON format
@@ -141,39 +141,6 @@ class TransactionController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
-
-    }
-
-    public function updateTransaction($id , Request $request)
-    {
-
-      try {
-
-        // Call the updateTransaction method of TransactionRepository
-        $transaction = $this->transaction->updateTransaction($id, $request);
-
-        // Create a custom response
-        $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $transaction
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-
-      } catch (\Exception $e) {
-
-        // Create a custom response
-        $response = [
-            "success" => false,
-            "status" => 502,
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-      }
-
     }
 
 }

@@ -1,32 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
-use App\Verification;
-use App\Http\Repositories\VerificationRepository;
+use App\Transaction;
+use App\Api\v1\Repositories\TransactionRepository;
 
-class VerificationController extends Controller
+class TransactionController extends Controller
 {
     /**
-     * The Verification
+     * The Transaction
      *
      * @var object
      */
-    private $verification;
+    private $transaction;
 
 
     /**
      * Class constructor
      */
-    public function __construct(VerificationRepository $verification)
+    public function __construct(TransactionRepository $transaction)
     {
-        // Inject VeriRepository Class into VerificationController
-        $this->verification = $verification;
+        // Inject TransactionRepository Class into TransactionController
+        $this->transaction = $transaction;
     }
 
     /**
-     * Create a  new Verification
+     * Create a  new Transaction
      *
      * @param object $request
      *
@@ -35,20 +35,16 @@ class VerificationController extends Controller
      */
     public function create (Request $request)
     {
-
-      // Generate a random code
-      $code = str_random(7);
-
         try {
 
-            // Call the create method of VerificationRepository
-            $verification = $this->verification->create($request , $code);
+            // Call the create method of TransactionRepository
+            $transaction = $this->transaction->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $verification
+                "data" => $transaction
             ];
 
             // return the custom in JSON format
@@ -69,27 +65,66 @@ class VerificationController extends Controller
 
     }
 
+
     /**
-     * Fetch a Verification
+     * Fetch all existing Transaction
      *
-     * @param string $email
+     * @return JSON
+     */
+    public function transactions ()
+    {
+      try {
+
+        // Call the transactions method of TransactionRepository
+        $transactions = $this->transaction->transactions();
+
+        // Create a custom response
+        $response = [
+            "success" => true,
+            "status" => 200,
+            "data" => $transactions
+        ];
+
+        // return the custom in JSON format
+        return response()->json($response);
+
+      } catch (\Exception $e) {
+
+        // Create a custom response
+        $response = [
+            "success" => false,
+            "status" => 502,
+        ];
+
+        // return the custom in JSON format
+        return response()->json($response);
+
+      }
+
+    }
+
+
+    /**
+     * Fetch a Transaction
+     *
+     * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchAVerification($email)
+    public function fetchATransaction($id)
     {
 
         try {
 
-          // Call the fetchAVerification method of VerificationRepository
-          $user = $this->verification->fetchAVerification($email);
+          // Call the fetchATransaction method of TransactionRepository
+          $transaction = $this->transaction->fetchATransaction($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $user
+              "data" => $transaction
           ];
 
           // return the custom in JSON format
@@ -106,43 +141,22 @@ class VerificationController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
+
     }
 
-    /**
-     * Update a Verification
-     *
-     * @param object $request
-     *
-     * @return JSON
-     *
-     */
-    public function updateVerification(Request $request)
+    public function updateTransaction($id , Request $request)
     {
-
-      // Generate a random code
-      $code = str_random(7);
 
       try {
 
-        // Call the updateVerification method of VerificationRepository
-        $verification = $this->verification->updateVerification($request->email , $code);
-
-        if ($verification) {
-
-          // Fetch the updated data from the verification table
-          $verification = Verification::whereEmail($request->email)->first();
-
-        }else {
-
-          $verification = "Email does not exist";
-
-        }
+        // Call the updateTransaction method of TransactionRepository
+        $transaction = $this->transaction->updateTransaction($id, $request);
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $verification
+            "data" => $transaction
         ];
 
         // return the custom in JSON format

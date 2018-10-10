@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\v1\Controllers;
 
 use App\Group;
 use Illuminate\Http\Request;
-use App\Http\Repositories\GroupRepository;
+use App\Api\v1\Repositories\GroupRepository;
 
 class GroupController extends Controller
 {

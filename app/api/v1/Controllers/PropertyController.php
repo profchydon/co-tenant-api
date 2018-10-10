@@ -1,32 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
-use App\Accept;
-use App\Http\Repositories\AcceptRepository;
+use App\Property;
+use App\Api\v1\Repositories\PropertyRepository;
 
-class AcceptController extends Controller
+class PropertyController extends Controller
 {
     /**
-     * The accept
+     * The Property
      *
      * @var object
      */
-    private $accept;
+    private $property;
 
 
     /**
      * Class constructor
      */
-    public function __construct(AcceptRepository $accept)
+    public function __construct(PropertyRepository $property)
     {
-        // Inject AcceptRepository Class into AcceptController
-        $this->accept = $accept;
+        // Inject PropertyRepository Class into PropertyController
+        $this->property = $property;
     }
 
     /**
-     * Create a  new accept
+     * Create a  new Property
      *
      * @param object $request
      *
@@ -37,14 +37,14 @@ class AcceptController extends Controller
     {
         try {
 
-            // Call the create method of AcceptRepository
-            $accept = $this->accept->create($request);
+            // Call the create method of PropertyRepository
+            $property = $this->property->create($request);
 
             // Create a custom array as response
             $response = [
                 "success" => true,
                 "status" => 201,
-                "data" => $accept
+                "data" => $property
             ];
 
             // return the custom in JSON format
@@ -67,22 +67,22 @@ class AcceptController extends Controller
 
 
     /**
-     * Fetch all existing accepts
+     * Fetch all existing Properties
      *
      * @return JSON
      */
-    public function accepts ()
+    public function properties ()
     {
       try {
 
-        // Call the accepts method of AcceptRepository
-        $accept = $this->accept->accepts();
+        // Call the Properties method of PropertyRepository
+        $property = $this->property->properties();
 
         // Create a custom response
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $accept
+            "data" => $property
         ];
 
         // return the custom in JSON format
@@ -105,26 +105,26 @@ class AcceptController extends Controller
 
 
     /**
-     * Fetch a accept
+     * Fetch a Property
      *
      * @param int $id
      *
      * @return JSON
      *
      */
-    public function fetchAAccept($id)
+    public function fetchAProperty($id)
     {
 
         try {
 
-          // Call the fetchAAccept method of AcceptRepository
-          $accept = $this->accept->fetchAAccept($id);
+          // Call the fetchAProperty method of PropertyRepository
+          $property = $this->property->fetchAProperty($id);
 
           // Create a custom response
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $accept
+              "data" => $property
           ];
 
           // return the custom in JSON format
@@ -141,6 +141,39 @@ class AcceptController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
+
+    }
+
+    public function updateProperty($id , Request $request)
+    {
+
+      try {
+
+        // Call the updateProperty method of PropertyRepository
+        $property = $this->property->updateProperty($id, $request);
+
+        // Create a custom response
+        $response = [
+            "success" => true,
+            "status" => 200,
+            "data" => $property
+        ];
+
+        // return the custom in JSON format
+        return response()->json($response);
+
+      } catch (\Exception $e) {
+
+        // Create a custom response
+        $response = [
+            "success" => false,
+            "status" => 502,
+        ];
+
+        // return the custom in JSON format
+        return response()->json($response);
+      }
+
     }
 
 }
