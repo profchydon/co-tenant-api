@@ -74,6 +74,19 @@ class UserRepository
     }
 
     /**
+     * Fetch a User
+     *
+     * @param int $email
+     *
+     * @return object $user
+     *
+     */
+    public function fetchAUserUsingEmail($email)
+    {
+      return $user = User::whereEmail($email)->first();
+    }
+
+    /**
      * Update a User
      *
      * @param int $id

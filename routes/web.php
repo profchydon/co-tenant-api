@@ -11,97 +11,95 @@
 |
 */
 
-// Tested and Confirmed
-Route::group(['prefix' => 'auth'], function () {
 
-  Route::post('login' , 'AuthController@login');
+Route::group(['prefix' => 'api/v1'], function () {
 
-});
+    // Matching route
+    Route::group(['prefix' => 'admin'], function () {
+        Route::post('match' , 'AdminController@matchTenantToProperty');
+    });
 
-Route::group(['prefix' => 'users'], function () {
+    // Auth route
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('login' , 'AuthController@login');
+    });
 
-  Route::post('create' , ['as' => 'createUser', 'uses' => 'UserController@create']);
-  Route::get('' , ['as' => 'allUsers', 'uses' => 'UserController@users']);
-  Route::get('{id}' , ['as' => 'fetchAuser', 'uses' => 'UserController@fetchAUser']);
-  Route::post('update/{id}' , ['as' => 'updateUser', 'uses' => 'UserController@updateUser']);
+    // Users route
+    Route::group(['prefix' => 'users'], function () {
+        Route::post('create' , ['as' => 'createUser', 'uses' => 'UserController@create']);
+        Route::get('' , ['as' => 'allUsers', 'uses' => 'UserController@users']);
+        Route::get('{id}' , ['as' => 'fetchAuser', 'uses' => 'UserController@fetchAUser']);
+        Route::post('update/{id}' , ['as' => 'updateUser', 'uses' => 'UserController@updateUser']);
+    });
 
-});
+    // Cotenants  route
+    Route::group(['prefix' => 'cotenants'], function () {
+        Route::post('create' , 'CotenantController@create');
+        Route::get('' , 'CotenantController@cotenants');
+        Route::get('{id}' , 'CotenantController@fetchACoTenant');
+        Route::post('update' , 'CotenantController@updateCoTenant');
+    });
 
-Route::group(['middleware' => 'auth' , 'prefix' => 'cotenants'], function () {
+    // Properties route
+    Route::group(['prefix' => 'properties'], function () {
+        Route::post('create' , 'PropertyController@create');
+        Route::get('' , 'PropertyController@properties');
+        Route::get('{id}' , 'PropertyController@fetchAProperty');
+        Route::post('update/{id}' , 'PropertyController@updateProperty');
+    });
 
-  Route::post('create' , 'CotenantController@create');
-  // Route::get('' , 'CotenantController@cotenants');
-  Route::get('{id}' , 'CotenantController@fetchACoTenant');
-  Route::post('update/{id}' , 'CotenantController@updateCoTenant');
+    // Groups route
+    Route::group(['prefix' => 'groups'], function () {
+        Route::post('create' , 'GroupController@create');
+        Route::get('' , 'GroupController@groups');
+        Route::get('{id}' , 'GroupController@fetchAGroup');
+        Route::post('update/{id}' , 'GroupController@updateGroup');
+    });
 
-});
-
-// Tested and Confirmed
-Route::group(['middleware' => 'auth' , 'prefix' => 'properties'], function () {
-
-  Route::post('create' , 'PropertyController@create');
-  Route::get('' , 'PropertyController@properties');
-  Route::get('{id}' , 'PropertyController@fetchAProperty');
-  Route::post('update/{id}' , 'PropertyController@updateProperty');
-
-});
-
-// Tested and Confirmed
-Route::group(['prefix' => 'groups'], function () {
-
-  Route::post('create' , 'GroupController@create');
-  Route::get('' , 'GroupController@groups');
-  Route::get('{id}' , 'GroupController@fetchAGroup');
-  Route::post('update/{id}' , 'GroupController@updateGroup');
-
-});
-
-// Tested and Confirmed
-Route::group(['prefix' => 'verifications'], function () {
-
-  Route::post('create' , 'VerificationController@create');
-  Route::get('' , 'VerificationController@groups');
-  Route::get('{id}' , 'VerificationController@fetchAVerification');
-  Route::post('update' , 'VerificationController@updateVerification');
-  Route::post('user/verify' , 'VerificationController@verifyUser');
-
-});
-
-// Tested and Confirmed
-Route::group(['middleware' => 'auth' , 'prefix' => 'transactions'], function () {
-
-  Route::post('create' , 'TransactionController@create');
-  Route::get('' , 'TransactionController@transactions');
-  Route::get('{id}' , 'TransactionController@fetchATransaction');
-  Route::post('update' , 'TransactionController@updateTransaction');
-
-});
-
-// Tested and Confirmed
-Route::group(['middleware' => 'auth' , 'prefix' => 'occupanies'], function () {
-
-  Route::post('create' , 'OccupancyController@create');
-  Route::get('' , 'OccupancyController@occupancies');
-  Route::get('{id}' , 'OccupancyController@fetchAOccupancy');
-  Route::post('update/{id}' , 'OccupancyController@updateOccupancy');
-
-});
-
-// Tested and Confirmed
-Route::group(['middleware' => 'auth' , 'prefix' => 'accepts'], function () {
-
-  Route::post('create' , 'AcceptController@create');
-  Route::get('' , 'AcceptController@accepts');
-  Route::get('{id}' , 'AcceptController@fetchAAccept');
-
-});
+    // Verifications route
+    Route::group(['prefix' => 'verifications'], function () {
+        Route::post('create' , 'VerificationController@create');
+        // Route::get('{id}' , 'VerificationController@fetchAVerification');
+        Route::post('update' , 'VerificationController@updateVerification');
+        Route::post('user/verify' , 'VerificationController@verifyUser');
+    });
 
 
-// Tested and Confirmed
-Route::group(['middleware' => 'auth' , 'prefix' => 'interests'], function () {
+    // Transactions route
+    Route::group(['prefix' => 'transactions'], function () {
+        Route::post('create' , 'TransactionController@create');
+        Route::get('' , 'TransactionController@transactions');
+        Route::get('{id}' , 'TransactionController@fetchATransaction');
+        Route::post('update' , 'TransactionController@updateTransaction');
+    });
 
-  Route::post('create' , 'InterestController@create');
-  Route::get('' , 'InterestController@interests');
-  Route::get('{id}' , 'InterestController@fetchAInterest');
+    // Occupanies route
+    Route::group(['prefix' => 'occupanies'], function () {
+        Route::post('create' , 'OccupancyController@create');
+        Route::get('' , 'OccupancyController@occupancies');
+        Route::get('{id}' , 'OccupancyController@fetchAOccupancy');
+        Route::post('update/{id}' , 'OccupancyController@updateOccupancy');
+    });
+
+    // Accepts route
+    Route::group(['prefix' => 'accepts'], function () {
+        Route::post('create' , 'AcceptController@create');
+        Route::get('' , 'AcceptController@accepts');
+        Route::get('{id}' , 'AcceptController@fetchAAccept');
+    });
+
+    // Interests route
+    Route::group(['prefix' => 'interests'], function () {
+        Route::post('create' , 'InterestController@create');
+        Route::get('' , 'InterestController@interests');
+        Route::get('{id}' , 'InterestController@fetchAInterest');
+    });
+
+    // Visits route
+    Route::group(['prefix' => 'visits'], function () {
+        Route::post('create' , 'VisitController@create');
+        Route::get('' , 'InterestController@interests');
+        Route::get('{id}' , 'InterestController@fetchAInterest');
+    });
 
 });

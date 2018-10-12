@@ -23,10 +23,17 @@ class AuthRepository
   {
 
       $user = User::where('email', $request->email)->first();
+      $password = Hash::check($request->password, $user->password);
 
-      if(Hash::check($request->password, $user->password)) {
+      if(!$user || !$password){
 
-          $date = Carbon::now('');
+          $user = "Incorrect login details";
+
+      }
+
+      if($user && $password) {
+
+          $date = Carbon::now();
 
           $hash = Hash::make($date);
 
@@ -36,12 +43,9 @@ class AuthRepository
 
           $user = User::whereEmail($request->email)->get();
 
-          return $user;
-
-      }else{
-
-          return response()->json(['status' => 'fail'],401);
       }
+
+          return $user;
   }
 
 

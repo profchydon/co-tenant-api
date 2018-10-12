@@ -3,6 +3,7 @@
 namespace App\Api\v1\Repositories;
 
 use App\Cotenant;
+use App\User;
 use Illuminate\Http\Request;
 use DB;
 
@@ -101,16 +102,26 @@ class CotenantRepository
      * @return object $tenant
      *
      */
-    public function updateCoTenant($id, $request)
+    public function updateCoTenant($request)
     {
+
         // Fetch tenant with $id from database
-        $cotenant = Cotenant::findOrfail($id);
+        $user = User::whereEmail($request->email)->where('api_key' , $request->header('Authorization'))->first();
 
-        // Update tenant details
-        $cotenant->update($request->all());
+        if ($user) {
 
-        // return tenant
-        return $cotenant;
+            $cotenant = Cotenant::where('user_id' , $user->id)->first();
+
+            // Update tenant details
+            $cotenant->update($request->all());
+
+            return $cotenant;
+
+        }elseif (!$user) {
+
+          return  $cotenant = "User details not found";
+
+        }
 
     }
 

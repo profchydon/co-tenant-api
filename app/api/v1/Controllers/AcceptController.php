@@ -23,6 +23,7 @@ class AcceptController extends Controller
     {
         // Inject AcceptRepository Class into AcceptController
         $this->accept = $accept;
+        $this->middleware('auth');
     }
 
     /**

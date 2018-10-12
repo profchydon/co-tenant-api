@@ -3,6 +3,7 @@
 namespace App\Api\v1\Repositories;
 
 use App\Accept;
+use App\Property;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -17,15 +18,18 @@ class AcceptRepository
     {
 
       $date_initiated = Carbon::now('Africa/Lagos');
-      $date_paid = "";
+      $date_paid = "not paid";
       $status = "Unfinalized";
+
+      $property = Property::whereId($request->property_id)->first();
+      $amount = $property->amount;
 
       DB::beginTransaction();
 
       $accept = Accept::create([
         'property_id' => $request->property_id,
         'cotenant_id' => $request->cotenant_id,
-        'amount' => $request->amount,
+        'amount' => $amount,
         'date_initiated' => $date_initiated,
         'date_paid' => $date_paid,
         'status' => $status

@@ -32,7 +32,7 @@ class UserController extends Controller
         // Inject UserRepository Class into UserController
         $this->user = $user;
         $this->verification = $verification;
-        // $this->middleware('auth:api', ['except' => ['create']] );
+        $this->middleware('auth', ['except' => ['create']]);
 
     }
 

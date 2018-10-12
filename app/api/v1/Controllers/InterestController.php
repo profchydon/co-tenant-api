@@ -22,6 +22,7 @@ class InterestController extends Controller
     {
         // Inject InterestRepository Class into InterestController
         $this->interest = $interest;
+        $this->middleware('auth');
     }
 
     /**

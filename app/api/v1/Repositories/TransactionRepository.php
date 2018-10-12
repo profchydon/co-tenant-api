@@ -28,20 +28,21 @@ class TransactionRepository
       // Begin a database transaction to create a transaction
       DB::beginTransaction();
 
-      // $duration = Cotenant::select('duration' , 'rent')->where('id' , $request->cotenant_id)->get();
-      // echo $duration->rent;
-      // die();
+      
       $duration = 1;
       $date = Carbon::now('Africa/Lagos');
       $expiry_date = Carbon::now('Africa/Lagos')->addYear($duration);
       $count = ($duration * 12) - 1;
 
+      $fetchAccept = Accept::find($request->accept_id);
+      $cotenant_id = $fetchAccept->cotenant_id;
+      $amount = $fetchAccept->amount;
 
       // Create the transaction
       $transaction = Transaction::create([
         'accept_id' => $request->accept_id,
-        'cotenant_id' => $request->cotenant_id,
-        'amount' => $request->amount,
+        'cotenant_id' => $cotenant_id,
+        'amount' => $amount,
         'date' => $date,
         'expiry_date' => $expiry_date,
         'count' => $count,
@@ -54,9 +55,8 @@ class TransactionRepository
 
       }else {
 
-        $updateAccept = Accept::find($request->accept_id);
 
-        $updateAccept->update(['date_paid'=> $date , 'status' => 'finalized']);
+        $fetchAccept->update(['date_paid'=> $date , 'status' => 'finalized']);
 
         // If creation of the transaction is successful, then commit transaction
         DB::commit();

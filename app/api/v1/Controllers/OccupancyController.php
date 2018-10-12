@@ -22,6 +22,7 @@ class OccupancyController extends Controller
     {
         // Inject occupancyRepository Class into occupancyController
         $this->occupancy = $occupancy;
+        $this->middleware('auth');
     }
 
     /**

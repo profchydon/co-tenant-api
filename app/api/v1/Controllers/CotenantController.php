@@ -24,6 +24,7 @@ class CotenantController extends Controller
     {
         // Inject CoTenantRepository Class into CoTenantController
         $this->cotenant = $cotenant;
+        $this->middleware('auth', ['except' => ['create']]);
     }
 
     /**
@@ -153,13 +154,13 @@ class CotenantController extends Controller
 
     }
 
-    public function updateCoTenant($id , Request $request)
+    public function updateCoTenant(Request $request)
     {
 
       try {
 
         // Call the updateTenant method of TenantRepository
-        $cotenant = $this->cotenant->updateCoTenant($id, $request);
+        $cotenant = $this->cotenant->updateCoTenant($request);
 
         // Create a custom response
         $response = [

@@ -23,6 +23,7 @@ class TransactionController extends Controller
     {
         // Inject TransactionRepository Class into TransactionController
         $this->transaction = $transaction;
+        $this->middleware('auth');
     }
 
     /**

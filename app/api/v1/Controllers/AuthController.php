@@ -25,6 +25,7 @@ class AuthController extends Controller
   {
       // Inject AuthRepository Class into AuthController
       $this->auth = $auth;
+      $this->middleware('auth', ['except' => ['login']]);
 
   }
 
@@ -53,6 +54,7 @@ class AuthController extends Controller
       $response = [
           "success" => false,
           "status" => 502,
+          "data" => "Incorrect Login Details"
       ];
 
       // return the custom in JSON format

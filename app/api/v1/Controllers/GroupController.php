@@ -5,6 +5,7 @@ namespace App\Api\v1\Controllers;
 use App\Group;
 use Illuminate\Http\Request;
 use App\Api\v1\Repositories\GroupRepository;
+use App\Api\v1\Repositories\AdminRepository;
 
 class GroupController extends Controller
 {
@@ -16,14 +17,23 @@ class GroupController extends Controller
    */
   private $group;
 
+  /**
+   * The Admin
+   *
+   * @var object
+   */
+  private $admin;
+
 
   /**
    * Class constructor
    */
-  public function __construct(GroupRepository $group)
+  public function __construct(GroupRepository $group, AdminRepository $admin)
   {
       // Inject UserRepository Class into UserController
       $this->group = $group;
+      $this->admin = $admin;
+      $this->middleware('auth');
   }
 
   /**
@@ -38,8 +48,18 @@ class GroupController extends Controller
   {
       try {
 
-          // Call the create method of UserRepository
-          $group = $this->group->create($request);
+          $isAdmin = $this->admin->isAdmin($request->header('Authorization'));
+
+          if (!$isAdmin) {
+
+              $group = "Unauthorized";
+
+          }else {
+
+              // Call the create method of UserRepository
+              $group = $this->group->create($request);
+
+          }
 
           // Create a custom array as response
           $response = [

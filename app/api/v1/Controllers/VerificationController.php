@@ -5,6 +5,7 @@ namespace App\Api\v1\Controllers;
 use Illuminate\Http\Request;
 use App\Verification;
 use App\Api\v1\Repositories\VerificationRepository;
+use App\Api\v1\Repositories\UserRepository;
 
 class VerificationController extends Controller
 {
@@ -15,14 +16,22 @@ class VerificationController extends Controller
      */
     private $verification;
 
+    /**
+     * The User
+     *
+     * @var object
+     */
+    private $user;
+
 
     /**
      * Class constructor
      */
-    public function __construct(VerificationRepository $verification)
+    public function __construct(VerificationRepository $verification , UserRepository $user)
     {
         // Inject VeriRepository Class into VerificationController
         $this->verification = $verification;
+        $this->user = $user;
     }
 
     /**
@@ -106,6 +115,7 @@ class VerificationController extends Controller
           // return the custom in JSON format
           return response()->json($response);
         }
+
     }
 
     /**
@@ -119,8 +129,8 @@ class VerificationController extends Controller
     public function updateVerification(Request $request)
     {
 
-      // Generate a random code
-      $code = str_random(7);
+      // Generate a random code for verification
+      $code = rand(10000 , 99999);
 
       try {
 
@@ -130,11 +140,17 @@ class VerificationController extends Controller
         if ($verification) {
 
           // Fetch the updated data from the verification table
-          $verification = Verification::whereEmail($request->email)->first();
+          $verification = $this->verification->checkEmailExist($request->email);
+
+          $user = $this->user->fetchAUserUsingEmail($request->email);
+
+          $data['verification'] = $verification;
+          $data['user'] = $user;
+
 
         }else {
 
-          $verification = "Email does not exist";
+          $data = "Email does not exist";
 
         }
 
@@ -142,7 +158,7 @@ class VerificationController extends Controller
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $verification
+            "data" => $data
         ];
 
         // return the custom in JSON format
@@ -167,34 +183,49 @@ class VerificationController extends Controller
 
       $verification = $this->verification->verifyUser($request->email, $request->code);
 
+      $user = $this->user->fetchAUserUsingEmail($request->email);
+
       if ($verification == "Oops!!! Verification code does not match") {
+
+        $data['verification'] = $verification;
+        $data['user'] = NULL;
 
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $verification,
+              "data" => $data,
           ];
 
       }
 
       if ($verification == "Sorry..No record found attached to this email") {
 
+        $data['verification'] = $verification;
+        $data['user'] = NULL;
+
         $response = [
             "success" => true,
             "status" => 200,
-            "data" => $verification,
+            "data" => $data,
         ];
 
       }
 
       if ($verification) {
 
+        $data['verification'] = $verification;
+        $data['user'] = $user;
+
+          // Update the active in the user table to 1, to indicate user has been verified
           $updateUserActive = $this->verification->updateUserActive($request->email);
+
+          // Delete the verification details from database since verification is successful
+          $deleteVerifiedDetail = $this->verification->deleteVerifiredRecord($request->email, $request->code);
 
           $response = [
               "success" => true,
               "status" => 200,
-              "data" => $verification,
+              "data" => $data,
           ];
 
       }

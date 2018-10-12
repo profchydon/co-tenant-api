@@ -49,6 +49,11 @@ class VerificationRepository
 
     }
 
+    public function checkEmailExist($email)
+    {
+      return $verification = Verification::whereEmail($email)->first();
+    }
+
     /**
      * Update a Verification code
      *
@@ -60,11 +65,11 @@ class VerificationRepository
     public function updateVerification($email, $code)
     {
         // Verify if provided email exists in database
-        $verification = Verification::whereEmail($email)->first();
+        $verification = $this->checkEmailExist($email);
 
         if ($verification) {
 
-            $verification->where('email', '=', $email)->update(['code' => $code]);
+            $verification->where('email', $email)->update(['code' => $code]);
 
         }
 
@@ -75,7 +80,7 @@ class VerificationRepository
     {
 
       // Verify if provided email exists in database
-      $checkIfEmailExists = Verification::whereEmail($email)->first();
+      $checkIfEmailExists = $this->checkEmailExist($email);
 
       if ($checkIfEmailExists == NULL) {
 
@@ -114,6 +119,21 @@ class VerificationRepository
 
       }
 
+    }
+
+    public function deleteVerifiredRecord($email, $code)
+    {
+        $deleteDetail = Verification::whereEmail($email)->where('code' , $code)->delete();
+
+        if ($deleteDetail) {
+
+            return true;
+
+        }else {
+
+            return false;
+
+        }
     }
 
 }
