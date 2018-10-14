@@ -17,6 +17,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     // Matching route
     Route::group(['prefix' => 'admin'], function () {
         Route::post('match' , 'AdminController@matchTenantToProperty');
+        Route::post('cotenant/records' , 'AdminController@cotenantRecords');
     });
 
     // Auth route
@@ -38,6 +39,7 @@ Route::group(['prefix' => 'api/v1'], function () {
         Route::get('' , 'CotenantController@cotenants');
         Route::get('{id}' , 'CotenantController@fetchACoTenant');
         Route::post('update' , 'CotenantController@updateCoTenant');
+        Route::post('accepts/all' , 'CotenantController@allAccepts');
     });
 
     // Properties route
@@ -98,8 +100,8 @@ Route::group(['prefix' => 'api/v1'], function () {
     // Visits route
     Route::group(['prefix' => 'visits'], function () {
         Route::post('create' , 'VisitController@create');
-        Route::get('' , 'InterestController@interests');
-        Route::get('{id}' , 'InterestController@fetchAInterest');
+        Route::get('' , 'InterestController@visits');
+        Route::get('{id}' , 'InterestController@fetchAVisit');
     });
 
 });

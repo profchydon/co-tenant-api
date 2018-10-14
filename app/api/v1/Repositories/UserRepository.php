@@ -8,17 +8,24 @@ use DB;
 use Illuminate\Support\Facades\Hash;
 
 
-/**
- *
- */
 class UserRepository
 {
 
+    /**
+   * Create a  new User
+   *
+   * @param object $request
+   *
+   * @return object $user
+   *
+   */
     public function create($request)
     {
 
+      // Begin database transaction
       DB::beginTransaction();
 
+      // Create User
       $user = User::create([
         'email' => strtolower($request->email),
         'password' => Hash::make($request->password),
@@ -31,18 +38,25 @@ class UserRepository
       ]);
 
       if (!$user) {
+
+        // If User isn't created, rollback database to initial state
         DB::rollback();
+
       }else {
+
+        // If User is created, commit transaction to the database
         DB::commit();
+
         return $user;
+
       }
 
     }
 
     /**
-     * Create all Users existing in the database
+     * Fetch all Users existing in the database
      *
-     * @return object $user
+     * @return object $users
      *
      */
     public function users()
@@ -74,7 +88,7 @@ class UserRepository
     }
 
     /**
-     * Fetch a User
+     * Fetch a User using email
      *
      * @param int $email
      *
@@ -83,6 +97,7 @@ class UserRepository
      */
     public function fetchAUserUsingEmail($email)
     {
+      // Fetch user with email from database
       return $user = User::whereEmail($email)->first();
     }
 
@@ -90,21 +105,30 @@ class UserRepository
      * Update a User
      *
      * @param int $id
+     *
      * @param object $request
      *
      * @return object $user
      *
      */
-    public function updateUser ($id, $request)
+    public function updateUser ($request)
     {
-        // Fetch user with $id from database
-        $user = User::findOrfail($id);
 
-        // Update user details
-        $user->update($request->all());
+        // Fetch User with email and api_key from database
+        $user = User::whereEmail($request->email)->where('api_key' , $request->header('Authorization'))->first();
 
-        // return user
-        return $user;
+        if ($user) {
+
+            // Update user details
+            $user->update($request->all());
+
+            return $user;
+
+        }elseif (!$user) {
+
+          return  $user = "User details not found";
+
+        }
 
     }
 

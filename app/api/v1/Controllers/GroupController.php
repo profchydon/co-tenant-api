@@ -52,7 +52,7 @@ class GroupController extends Controller
 
           if (!$isAdmin) {
 
-              $group = "Unauthorized";
+              $group = "Unauthorized. Only admins are allowed to make this action";
 
           }else {
 

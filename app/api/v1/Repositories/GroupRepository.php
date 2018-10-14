@@ -12,29 +12,54 @@ use DB;
 class GroupRepository
 {
 
-  public function create($request)
-  {
+    /**
+   * Create a  new Group
+   *
+   * @param object $request
+   *
+   * @return object $group
+   *
+   */
+    public function create($request)
+    {
 
-    DB::beginTransaction();
-    $group = Group::create([
-      'user_type' => $request->user_type,
-    ]);
+      // Begin databse transaction
+      DB::beginTransaction();
 
-    if (!$group) {
-      DB::rollback();
-    }else {
-      DB::commit();
-      return $group;
+      // Create group
+      $group = Group::create([
+        'user_type' => $request->user_type,
+      ]);
+
+      if (!$group) {
+
+        // If the instance of group is not created, roll back database to its initial state
+        DB::rollback();
+
+      }else {
+
+        // If the instance of group is created, commit the transaction
+        DB::commit();
+
+        return $group;
+      }
+
+
     }
 
-  }
+    /**
+   * Fetch all existing groups
+   *
+   * @return object $groups
+   *
+   */
+    public function groups()
+    {
+      // Fetch all groups
+      $groups = Group::all();
+      return $groups;
 
-  public function groups()
-  {
-    $groups = Group::all();
-    return $groups;
-
-  }
+    }
 
 
 

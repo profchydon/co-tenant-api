@@ -43,12 +43,12 @@ class AdminController extends Controller
 
         if (!$isAdmin) {
 
-            // Create a custom array as response
-            $response = [
-                "success" => true,
-                "status" => 200,
-                "data" => "Unathorized"
-            ];
+          // Create a custom array as response
+          $response = [
+              "success" => true,
+              "status" => 200,
+              "data" => "Unauthorized. Only admins are authorized to make this action"
+          ];
 
         }else {
 
@@ -66,6 +66,52 @@ class AdminController extends Controller
         return response()->json($response);
     }
 
+
+    public function cotenantRecords(Request $request)
+    {
+
+      $isAdmin = $this->admin->isAdmin($request->header('Authorization'));
+
+      if (!$isAdmin) {
+
+        // Create a custom array as response
+        $response = [
+            "success" => true,
+            "status" => 200,
+            "data" => "Unauthorized. Only admins are authorized to make this action"
+        ];
+
+      }else {
+
+          // Fetch the user with email
+          $cotenantRecords = $this->admin->cotenantRecords($request);
+
+          if ($cotenantRecords == "User does not exist") {
+
+              $response = [
+                  "success" => true,
+                  "status" => 401,
+                  "data" => $cotenantRecords
+              ];
+
+          }else {
+
+              $response = [
+                  "success" => true,
+                  "status" => 201,
+                  "data" => $cotenantRecords
+              ];
+
+          }
+
+      }
+
+      // return the custom in JSON format
+      return response()->json($response);
+
+
+
+    }
 
 }
 

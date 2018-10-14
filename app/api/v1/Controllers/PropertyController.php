@@ -51,7 +51,7 @@ class PropertyController extends Controller
 
             if (!$isAdmin) {
 
-                $property = "Unauthorized to create a property. Only admins are allowed to create properties";
+                $property = "Unauthorized to create a property. Only admins are allowed to make this action";
                 $status = 401;
 
             }else {
@@ -175,7 +175,7 @@ class PropertyController extends Controller
 
           if (!$isAdmin) {
 
-              $property = "Unauthorized to update a property. Only admins are allowed to do so";
+              $property = "Unauthorized to update a property. Only admins are allowed to make this action";
               $status = 401;
 
           }else {

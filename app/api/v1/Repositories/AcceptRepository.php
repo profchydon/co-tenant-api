@@ -14,18 +14,34 @@ use Carbon\Carbon;
 class AcceptRepository
 {
 
+    /**
+   * Create a  new User
+   *
+   * @param object $request
+   *
+   * @return object $accept
+   *
+   */
     public function create($request)
     {
 
+      // Get the current date
       $date_initiated = Carbon::now('Africa/Lagos');
+
+      //initialize static variables
       $date_paid = "not paid";
       $status = "Unfinalized";
 
+      // Fetch the details of the particula property
       $property = Property::whereId($request->property_id)->first();
+
+      // Get the amount of the property
       $amount = $property->amount;
 
+      // Begin database transaction
       DB::beginTransaction();
 
+      // Create an Accept
       $accept = Accept::create([
         'property_id' => $request->property_id,
         'cotenant_id' => $request->cotenant_id,
@@ -37,9 +53,15 @@ class AcceptRepository
 
 
       if (!$accept) {
+
+        // If the instance of accept is not created, roll back database to its initial state
         DB::rollback();
+
       }else {
+
+        // If the instance of accept is created, commit the transaction
         DB::commit();
+
         return $accept;
       }
 
@@ -61,21 +83,28 @@ class AcceptRepository
 
     }
 
-    /**
-     * Fetch a accept
-     *
-     * @param int $id
-     *
-     * @return object $accept
-     *
-     */
     public function fetchAAccept($id)
     {
-      // Fetch Accept with $id from database
-      $accept = Accept::findOrfail($id);
+        $accept = Accept::find($id);
 
-      // return accept
-      return $accept;
+        return $accept;
+    }
+
+    /**
+     * Get all accepts for a tenant
+     *
+     * @param int $id
+     * @param object $request
+     *
+     * @return object $tenant
+     *
+     */
+    public function allAcceptsForATenant($request)
+    {
+
+        $allAccepts = Accept::where('cotenant_id' , $request->cotenant_id)->get();
+
+        return $allAccepts;
 
     }
 

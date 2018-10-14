@@ -92,7 +92,6 @@ class CotenantRepository
         return $cotenant;
       }
 
-
     /**
      * Update a Tenant
      *
@@ -124,6 +123,8 @@ class CotenantRepository
         }
 
     }
+
+    
 
 }
 

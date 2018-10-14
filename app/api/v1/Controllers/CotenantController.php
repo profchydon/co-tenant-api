@@ -5,6 +5,7 @@ namespace App\Api\v1\Controllers;
 use Illuminate\Http\Request;
 use App\Cotenant;
 use App\Api\v1\Repositories\CotenantRepository;
+use App\Api\v1\Repositories\AcceptRepository;
 
 class CotenantController extends Controller
 {
@@ -16,14 +17,22 @@ class CotenantController extends Controller
      */
     private $cotenant;
 
+    /**
+     * The Accept
+     *
+     * @var object
+     */
+    private $accept;
+
 
     /**
      * Class constructor
      */
-    public function __construct(CotenantRepository $cotenant)
+    public function __construct(CotenantRepository $cotenant , AcceptRepository $accept)
     {
         // Inject CoTenantRepository Class into CoTenantController
         $this->cotenant = $cotenant;
+        $this->accept = $accept;
         $this->middleware('auth', ['except' => ['create']]);
     }
 
@@ -183,6 +192,35 @@ class CotenantController extends Controller
         // return the custom in JSON format
         return response()->json($response);
       }
+
+    }
+
+    public function allAccepts(Request $request)
+    {
+
+        try {
+
+            $allAccepts = $this->accept->allAcceptsForATenant($request);
+
+            // Create a custom response
+            $response = [
+                "success" => true,
+                "status" => 200,
+                "data" => $allAccepts
+            ];
+
+        } catch (\Exception $e) {
+
+          // Create a custom response
+          $response = [
+              "success" => false,
+              "status" => 502,
+          ];
+
+        }
+
+        // return the custom in JSON format
+        return response()->json($response);
 
     }
 
