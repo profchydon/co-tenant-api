@@ -10,6 +10,7 @@ use App\Cotenant;
 use App\Visit;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Hash;
 
 /**
  *
@@ -47,6 +48,8 @@ class AdminRepository
 
       // If User isn't created, rollback database to initial state
       DB::rollback();
+
+      return $user;
 
     }else {
 

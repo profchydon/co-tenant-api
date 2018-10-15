@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Interest;
 use App\Api\v1\Repositories\InterestRepository;
 use App\Api\v1\Repositories\AdminRepository;
+use App\Api\v1\Repositories\VerificationRepository;
 
 class AdminController extends Controller
 {
@@ -24,14 +25,21 @@ class AdminController extends Controller
      */
     private $admin;
 
+    /**
+     * The Verification
+     *
+     * @var object
+     */
+    private $verification;
 
     /**
      * Class constructor
      */
-    public function __construct(AdminRepository $admin, InterestRepository $interest)
+    public function __construct(AdminRepository $admin, InterestRepository $interest, VerificationRepository $verification)
     {
         // Inject InterestRepository Class into InterestController
         $this->interest = $interest;
+        $this->verification = $verification;
         $this->admin = $admin;
         $this->middleware('auth');
 
@@ -47,55 +55,62 @@ class AdminController extends Controller
      */
     public function create (Request $request)
     {
-        try {
 
-            $isAdmin = $this->admin->isAdmin($request->header('Authorization'));
+      $isAdmin = $this->admin->isAdmin($request->header('Authorization'));
 
-            if ($isAdmin) {
+      if ($isAdmin) {
 
-              // Call the create method of UserRepository
-              $admin = $this->admin->create($request);
+        // Call the create method of UserRepository
+        $admin = $this->admin->create($request);
 
-              if ($admin) {
+        if ($admin) {
 
-                  // Generate a random code for verification
-                  $code = rand(10000 , 99999);
+            // Generate a random code for verification
+            $code = rand(10000 , 99999);
 
-                  // Send verification code here
-                  // Code goes Here
+            // Send verification code here
+            // Code goes Here
 
-                  // Save verification code and email to verification table
-                  $verification = $this->verification->create($request, $code);
-
-              }
-
-              $data['user'] = $admin;
-              $data['verification'] = $verification;
-
-              // Create a custom array as response
-              $response = [
-                  "success" => true,
-                  "status" => 201,
-                  "data" => $data
-              ];
-
-            }
-
-            // return the custom in JSON format
-            return response()->json($response);
-
-        } catch (\Exception $e) {
-
-          // Create a custom response
-          $response = [
-              "success" => false,
-              "status" => 502,
-          ];
-
-          // return the custom in JSON format
-          return response()->json($response);
+            // Save verification code and email to verification table
+            $verification = $this->verification->create($request, $code);
 
         }
+
+        $data['user'] = $admin;
+        $data['verification'] = $verification;
+
+        // Create a custom array as response
+        $response = [
+            "success" => true,
+            "status" => 201,
+            "data" => $data
+        ];
+
+      }elseif (!$isAdmin) {
+
+        // Create a custom array as response
+        $response = [
+            "success" => true,
+            "status" => 201,
+            "message" => "Unauthorized. Only admins can perform this action",
+            "data" => NULL
+        ];
+
+      }
+      else {
+
+        // Create a custom array as response
+        $response = [
+            "success" => true,
+            "status" => 401,
+            "message" => "Oops! There was an error. Please try again",
+            "data" => NULL
+        ];
+
+      }
+
+      // return the custom in JSON format
+      return response()->json($response);
 
     }
 
