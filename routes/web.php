@@ -18,6 +18,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::post('match' , 'AdminController@matchTenantToProperty');
         Route::post('cotenant/records' , 'AdminController@cotenantRecords');
+        Route::post('create' , ['as' => 'createAdmin', 'uses' => 'AdminController@create']);
     });
 
     // Auth route
@@ -30,7 +31,9 @@ Route::group(['prefix' => 'api/v1'], function () {
         Route::post('create' , ['as' => 'createUser', 'uses' => 'UserController@create']);
         Route::get('' , ['as' => 'allUsers', 'uses' => 'UserController@users']);
         Route::get('{id}' , ['as' => 'fetchAuser', 'uses' => 'UserController@fetchAUser']);
-        Route::post('update/{id}' , ['as' => 'updateUser', 'uses' => 'UserController@updateUser']);
+        Route::post('update' , ['as' => 'updateUser', 'uses' => 'UserController@updateUser']);
+
+        Route::post('sendmail' , ['as' => 'sendMail', 'uses' => 'UserController@sendVerificationMail']);
     });
 
     // Cotenants  route

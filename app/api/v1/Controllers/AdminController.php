@@ -37,6 +37,68 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * Create a  new User
+     *
+     * @param object $request
+     *
+     * @return JSON
+     *
+     */
+    public function create (Request $request)
+    {
+        try {
+
+            $isAdmin = $this->admin->isAdmin($request->header('Authorization'));
+
+            if ($isAdmin) {
+
+              // Call the create method of UserRepository
+              $admin = $this->admin->create($request);
+
+              if ($admin) {
+
+                  // Generate a random code for verification
+                  $code = rand(10000 , 99999);
+
+                  // Send verification code here
+                  // Code goes Here
+
+                  // Save verification code and email to verification table
+                  $verification = $this->verification->create($request, $code);
+
+              }
+
+              $data['user'] = $admin;
+              $data['verification'] = $verification;
+
+              // Create a custom array as response
+              $response = [
+                  "success" => true,
+                  "status" => 201,
+                  "data" => $data
+              ];
+
+            }
+
+            // return the custom in JSON format
+            return response()->json($response);
+
+        } catch (\Exception $e) {
+
+          // Create a custom response
+          $response = [
+              "success" => false,
+              "status" => 502,
+          ];
+
+          // return the custom in JSON format
+          return response()->json($response);
+
+        }
+
+    }
+
     public function matchTenantToProperty(Request $request)
     {
         $isAdmin = $this->admin->isAdmin($request->header('Authorization'));

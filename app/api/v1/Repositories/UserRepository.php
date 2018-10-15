@@ -5,7 +5,11 @@ namespace App\Api\v1\Repositories;
 use App\User;
 use Illuminate\Http\Request;
 use DB;
+// use Illuminate\Mail\Mailable as Mail;
+// use Illuminate\Mail\Mailer;
+use Mail;
 use Illuminate\Support\Facades\Hash;
+use App\Api\v1\Mail\SendMail;
 
 
 class UserRepository
@@ -33,7 +37,7 @@ class UserRepository
         'last_name' => $request->last_name,
         'gender' => $request->gender,
         'phone_number' => $request->phone_number,
-        'user_group' => $request->user_group,
+        'user_group' => "user",
         'active' => 0
       ]);
 
@@ -115,7 +119,7 @@ class UserRepository
     {
 
         // Fetch User with email and api_key from database
-        $user = User::whereEmail($request->email)->where('api_key' , $request->header('Authorization'))->first();
+        $user = User::where('api_key' , $request->header('Authorization'))->first();
 
         if ($user) {
 
@@ -129,6 +133,14 @@ class UserRepository
           return  $user = "User details not found";
 
         }
+
+    }
+
+    public function sendVerificationMail($user){
+
+      $mail = new Mail();
+
+      return $mail->to($user->email)->send(new SendMail($user));
 
     }
 

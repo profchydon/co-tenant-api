@@ -4,6 +4,7 @@ namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Auth;
 use App\Api\v1\Repositories\UserRepository;
 use App\Api\v1\Repositories\VerificationRepository;
 
@@ -33,6 +34,8 @@ class UserController extends Controller
         $this->user = $user;
         $this->verification = $verification;
         $this->middleware('auth', ['except' => ['create']]);
+
+        $auth = Auth::user();
 
     }
 
@@ -100,6 +103,7 @@ class UserController extends Controller
      */
     public function users ()
     {
+
       try {
 
         // Call the users method of UserRepository
@@ -180,13 +184,13 @@ class UserController extends Controller
      * @return JSON
      *
      */
-    public function updateUser($id , Request $request)
+    public function updateUser(Request $request)
     {
 
       try {
 
         // Call the updateUser method of UserRepository
-        $user = $this->user->updateUser($id, $request);
+        $user = $this->user->updateUser($request);
 
         // Create a custom response
         $response = [
@@ -209,6 +213,16 @@ class UserController extends Controller
         // return the custom in JSON format
         return response()->json($response);
       }
+
+    }
+
+    public function sendVerificationMail(){
+
+      $user = Auth::user();
+
+      $mail = $this->user->sendVerificationMail($user);
+
+      return $mail;
 
     }
 

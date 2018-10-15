@@ -17,6 +17,50 @@ use DB;
 class AdminRepository
 {
 
+  /**
+ * Create a  new Admin
+ *
+ * @param object $request
+ *
+ * @return object $user
+ *
+ */
+  public function create($request)
+  {
+
+    // Begin database transaction
+    DB::beginTransaction();
+
+    // Create User
+    $user = User::create([
+      'email' => strtolower($request->email),
+      'password' => Hash::make($request->password),
+      'first_name' => $request->first_name,
+      'last_name' => $request->last_name,
+      'gender' => $request->gender,
+      'phone_number' => $request->phone_number,
+      'user_group' => "admin",
+      'active' => 0
+    ]);
+
+    if (!$user) {
+
+      // If User isn't created, rollback database to initial state
+      DB::rollback();
+
+    }else {
+
+      // If User is created, commit transaction to the database
+      DB::commit();
+
+      return $user;
+
+    }
+
+  }
+
+
+
     /**
    * Match a tenant to a property
    *

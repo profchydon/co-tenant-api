@@ -105,7 +105,7 @@ class CotenantRepository
     {
 
         // Fetch tenant with $id from database
-        $user = User::whereEmail($request->email)->where('api_key' , $request->header('Authorization'))->first();
+        $user = User::where('api_key' , $request->header('Authorization'))->first();
 
         if ($user) {
 
@@ -124,7 +124,7 @@ class CotenantRepository
 
     }
 
-    
+
 
 }
 
