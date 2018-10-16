@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::group(['prefix' => 'api/v1'], function () {
 
     // Matching route
@@ -68,7 +67,6 @@ Route::group(['prefix' => 'api/v1'], function () {
         Route::post('update' , 'VerificationController@updateVerification');
         Route::post('user/verify' , 'VerificationController@verifyUser');
     });
-
 
     // Transactions route
     Route::group(['prefix' => 'transactions'], function () {
