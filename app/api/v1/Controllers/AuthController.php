@@ -25,7 +25,7 @@ class AuthController extends Controller
   {
       // Inject AuthRepository Class into AuthController
       $this->auth = $auth;
-      $this->middleware('auth', ['except' => ['login']]);
+      $this->middleware('auth', ['except' => ['login' , 'passwordReset' , 'changePassword']]);
 
   }
 
@@ -61,6 +61,54 @@ class AuthController extends Controller
       return response()->json($response);
 
     }
+
+  }
+
+  public function passwordReset(Request $request)
+  {
+    try {
+
+        $password = $this->auth->passwordReset($request->email);
+
+        // Create a custom array as response
+        $response = [
+            "success" => true,
+            "status" => $password['status'],
+            "data" => $password['message']
+        ];
+
+    } catch (\Exception $e) {
+
+        // Create a custom response
+        $response = [
+            "success" => false,
+            "status" => 502,
+            "data" => "Sorry! Something went wrong"
+        ];
+
+    }
+
+    // return the custom in JSON format
+    return response()->json($response);
+
+  }
+
+  public function changePassword()
+  {
+
+    if (isset($_GET['email']) && isset($_GET['code'])) {
+
+        $data['email'] = $_GET['email'];
+        $data['code'] = $_GET['code'];
+
+        $changePassword = $this->auth->changePassword($data);
+
+    }else {
+
+
+
+    }
+
 
   }
 

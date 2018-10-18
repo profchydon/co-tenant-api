@@ -32,12 +32,19 @@ class AuthRepository
 
       if(!$user || !$password){
 
-        // If email or password provided does not match
+          // If email or password provided does not match
           $user = "Incorrect login details";
 
       }
 
       if($user && $password) {
+
+          if ($this->isUserActive($request)) {
+            echo "True";
+          }else {
+            echo "string";
+          }
+          die();
 
           // Get the current date
           $date = Carbon::now();
@@ -57,6 +64,62 @@ class AuthRepository
           return $user;
   }
 
+  public function isUserActive($request)
+  {
+
+      $user = User::whereEmail($request->email)->where('password' , Hash::make($request->password))->first();
+
+      return $user->active ? true : false;
+
+  }
+
+  public function passwordReset($email)
+  {
+
+      $emailExist = User::whereEmail($email)->first();
+
+      if (!$emailExist) {
+
+          // If email or password provided does not match
+          $passwordReset['message'] = "Email address provided does not exist";
+          $passwordReset['status'] = '401';
+      }
+
+      if ($emailExist) {
+
+            $code = str_random(7);
+
+            User::whereEmail($email)->update(['remember_token' => $code]);
+
+            $subject = 'Password reset';
+
+            $body = "Hi,
+            Click on the link below to reset your password
+            http://localhost:8000/api/v1/auth/password_reset?email=$email&code=$code
+            ";
+
+            $sendMail = mail($email, $subject, $body , 'noreply@cotenant.com');
+
+            if ($sendMail) {
+
+                $passwordReset['message'] = "A link for password has been sent to your email address.";
+                $passwordReset['status'] = '200';
+
+            }
+
+      }
+
+      return $passwordReset;
+
+  }
+
+
+  // public function changePassword($data)
+  // {
+  //
+  //     User::where('email', $data['email'])->where('remember_token' , $data['code'])->update(['password' => ]);
+  //
+  // }
 
 }
 

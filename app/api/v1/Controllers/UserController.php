@@ -33,7 +33,7 @@ class UserController extends Controller
         // Inject UserRepository Class into UserController
         $this->user = $user;
         $this->verification = $verification;
-        $this->middleware('auth', ['except' => ['create']]);
+        $this->middleware('auth', ['except' => ['create' , 'users' , 'fetchAUser']]);
 
         $auth = Auth::user();
 
@@ -49,49 +49,90 @@ class UserController extends Controller
      */
     public function create (Request $request)
     {
-        try {
+        // Call the create method of UserRepository
+        $user = $this->user->create($request);
 
-            // Call the create method of UserRepository
-            $user = $this->user->create($request);
+        if ($user == "Email address already exist" || $user == "Phone number already exist") {
 
-            if ($user) {
+            // Create a custom array as response
+            $response = [
+                "status" => "failed",
+                "code" => 409,
+                "message" => $user,
+                "data" => []
+            ];
 
-                // Generate a random code for verification
-                $code = rand(10000 , 99999);
+        }else{
 
-                // Send verification code here
-                // Code goes Here
+            // Generate a random code for verification
+            $code = rand(10000 , 99999);
 
-                // Save verification code and email to verification table
-                $verification = $this->verification->create($request, $code);
+            // Send verification code here
+            // Code goes Here
 
-            }
+            // Save verification code and email to verification table
+            $verification = $this->verification->create($request, $code);
 
             $data['user'] = $user;
             $data['verification'] = $verification;
 
             // Create a custom array as response
             $response = [
-                "success" => true,
-                "status" => 201,
-                "data" => $data
+                "status" => "success",
+                "code" => 201,
+                "message" => "User created successfully",
+                "data" => $user
             ];
 
-            // return the custom in JSON format
-            return response()->json($response);
-
-        } catch (\Exception $e) {
-
-          // Create a custom response
-          $response = [
-              "success" => false,
-              "status" => 502,
-          ];
-
-          // return the custom in JSON format
-          return response()->json($response);
 
         }
+
+        // return the custom in JSON format
+        return response()->json($response);
+
+    }
+
+
+    /**
+     * Update a User
+     *
+     * @param int $id
+     *
+     * @param object $request
+     *
+     * @return JSON
+     *
+     */
+    public function updateUser(Request $request)
+    {
+
+      // Call the updateUser method of UserRepository
+      $user = $this->user->updateUser($request);
+
+      if ($user == "User details not found") {
+
+          // Create a custom array as response
+          $response = [
+              "status" => "failed",
+              "code" => 404,
+              "message" => $user,
+              "data" => []
+          ];
+
+      }else {
+
+        // Create a custom array as response
+        $response = [
+            "status" => "success",
+            "code" => 201,
+            "message" => "User created successfully",
+            "data" => $user
+        ];
+
+      }
+
+      // return the custom in JSON format
+      return response()->json($response);
 
     }
 
@@ -174,47 +215,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Update a User
-     *
-     * @param int $id
-     *
-     * @param object $request
-     *
-     * @return JSON
-     *
-     */
-    public function updateUser(Request $request)
-    {
-
-      try {
-
-        // Call the updateUser method of UserRepository
-        $user = $this->user->updateUser($request);
-
-        // Create a custom response
-        $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $user
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-
-      } catch (\Exception $e) {
-
-        // Create a custom response
-        $response = [
-            "success" => false,
-            "status" => 502,
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
-      }
-
-    }
 
     public function sendVerificationMail(){
 

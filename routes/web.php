@@ -23,6 +23,8 @@ Route::group(['prefix' => 'api/v1'], function () {
     // Auth route
     Route::group(['prefix' => 'auth'], function () {
         Route::post('login' , 'AuthController@login');
+        Route::post('password_reset' , 'AuthController@passwordReset');
+        Route::get('password_reset' , 'AuthController@changePassword');
     });
 
     // Users route
@@ -31,7 +33,7 @@ Route::group(['prefix' => 'api/v1'], function () {
         Route::get('' , ['as' => 'allUsers', 'uses' => 'UserController@users']);
         Route::get('{id}' , ['as' => 'fetchAuser', 'uses' => 'UserController@fetchAUser']);
         Route::post('update' , ['as' => 'updateUser', 'uses' => 'UserController@updateUser']);
-
+        
         Route::post('sendmail' , ['as' => 'sendMail', 'uses' => 'UserController@sendVerificationMail']);
     });
 
