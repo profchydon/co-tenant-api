@@ -33,7 +33,7 @@ Route::group(['prefix' => 'api/v1'], function () {
         Route::get('' , ['as' => 'allUsers', 'uses' => 'UserController@users']);
         Route::get('{id}' , ['as' => 'fetchAuser', 'uses' => 'UserController@fetchAUser']);
         Route::post('update' , ['as' => 'updateUser', 'uses' => 'UserController@updateUser']);
-        
+
         Route::post('sendmail' , ['as' => 'sendMail', 'uses' => 'UserController@sendVerificationMail']);
     });
 
@@ -50,6 +50,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::group(['prefix' => 'properties'], function () {
         Route::post('create' , 'PropertyController@create');
         Route::get('' , 'PropertyController@properties');
+        Route::post('filter' , 'PropertyController@propertyFiltered');
         Route::get('{id}' , 'PropertyController@fetchAProperty');
         Route::post('update/{id}' , 'PropertyController@updateProperty');
     });

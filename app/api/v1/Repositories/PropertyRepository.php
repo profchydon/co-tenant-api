@@ -115,6 +115,56 @@ class PropertyRepository
 
     }
 
+
+    /**
+     * Filter Property based on Tenant search
+     *
+     * @param object $request
+     *
+     * @return object $property
+     *
+     */
+    public function propertyFiltered($request)
+    {
+        try {
+
+            $location_1 = htmlentities(strip_tags(trim($request->location_1)));
+            $location_2 = htmlentities(strip_tags(trim($request->location_2)));
+
+            if (empty($location_1) && empty($location_2)) {
+
+                return "No search parameter provided. Please provide a location";
+
+            }
+            elseif (empty($location_1)) {
+
+                // If location 1 from user search is empty return only properies of location 2
+                return $properties[$location_2] = Property::where('location' , $location_2)->get();
+
+            }
+            elseif (empty($location_2)) {
+
+                // If location 2 from user search is empty return only properies of location 1
+                return $properties[$location_1] = Property::where('location' , $location_1)->get();
+
+            }
+            else {
+
+              $properties[$location_1] = Property::where('location' , $location_1)->get();
+              $properties[$location_2] = Property::where('location' , $location_2)->get();
+              return $properties;
+
+            }
+
+        } catch (\Exception $e) {
+
+              return "Oops! Sorry there was an error. Please try again";
+
+        }
+
+
+    }
+
 }
 
 ?>

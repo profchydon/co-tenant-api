@@ -210,6 +210,22 @@ class PropertyController extends Controller
 
     }
 
+    public function propertyFiltered(Request $request)
+    {
+        $properties = $this->property->propertyFiltered($request);
+
+        // Create a custom array as response
+        $response = [
+            "status" => "success",
+            "code" => 200,
+            "message" => "Search successful",
+            "data" => $properties
+        ];
+
+        // return the custom in JSON format
+        return response()->json($response);
+    }
+
 }
 
 ?>
