@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Api\v1\Mail\SendMail;
 
 
+
 class UserRepository
 {
 

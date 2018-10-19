@@ -7,6 +7,7 @@ use App\User;
 use Auth;
 use App\Api\v1\Repositories\UserRepository;
 use App\Api\v1\Repositories\VerificationRepository;
+use Illuminate\Support\Facades\Mail;
 
 
 class UserController extends Controller
@@ -65,7 +66,8 @@ class UserController extends Controller
         }else{
 
             // Generate a random code for verification
-            $code = rand(10000 , 99999);
+            $code = rand(1000 , 9999);
+            $code = (int)$code;
 
             // Send verification code here
             // Code goes Here

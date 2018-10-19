@@ -33,34 +33,43 @@ class AuthController extends Controller
   public function login(Request $request)
   {
 
-    try {
-
       // Call the create method of UserRepository
       $auth = $this->auth->login($request);
 
-      // Create a custom array as response
-      $response = [
-          "success" => true,
-          "status" => 201,
-          "data" => $auth
-      ];
+      if ($auth == "Incorrect login details") {
+
+          // Create a custom array as response
+          $response = [
+              "status" => "failed",
+              "code" => 404,
+              "message" => $auth,
+              "data" => []
+          ];
+
+      }elseif ($auth == "User's account has not been verified") {
+
+          // Create a custom array as response
+          $response = [
+              "status" => "failed",
+              "code" => 200,
+              "message" => $auth,
+              "data" => []
+          ];
+
+      }else {
+
+          // Create a custom array as response
+          $response = [
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
+              "data" => $auth
+          ];
+
+      }
 
       // return the custom in JSON format
       return response()->json($response);
-
-    } catch (\Exception $e) {
-
-      // Create a custom response
-      $response = [
-          "success" => false,
-          "status" => 502,
-          "data" => "Incorrect Login Details"
-      ];
-
-      // return the custom in JSON format
-      return response()->json($response);
-
-    }
 
   }
 

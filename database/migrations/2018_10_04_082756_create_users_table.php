@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
           $table->string('user_group')->nullable();
           $table->string('api_key')->unique()->nullable();
           $table->integer('active')->default('0')->nullable();
+          $table->string('password_reset')->nullable();;
           $table->rememberToken();
           $table->timestamps();
         });
