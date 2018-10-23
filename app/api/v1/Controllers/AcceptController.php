@@ -4,6 +4,7 @@ namespace App\Api\v1\Controllers;
 
 use Illuminate\Http\Request;
 use App\Accept;
+use Auth;
 use App\Api\v1\Repositories\AcceptRepository;
 
 class AcceptController extends Controller
@@ -36,6 +37,7 @@ class AcceptController extends Controller
      */
     public function create (Request $request)
     {
+
         try {
 
             // Call the create method of AcceptRepository
@@ -43,8 +45,9 @@ class AcceptController extends Controller
 
             // Create a custom array as response
             $response = [
-                "success" => true,
-                "status" => 201,
+                "status" => "success",
+                "code" => 201,
+                "message" => "Accept created successfully",
                 "data" => $accept
             ];
 
@@ -53,10 +56,12 @@ class AcceptController extends Controller
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => []
           ];
 
           // return the custom in JSON format
@@ -77,13 +82,14 @@ class AcceptController extends Controller
       try {
 
         // Call the accepts method of AcceptRepository
-        $accept = $this->accept->accepts();
+        $accepts = $this->accept->accepts();
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $accept
+            "status" => "success",
+            "code" => 200,
+            "message" => "Ok",
+            "data" => $accepts
         ];
 
         // return the custom in JSON format
@@ -91,10 +97,12 @@ class AcceptController extends Controller
 
       } catch (\Exception $e) {
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => false,
-            "status" => 502,
+            "status" => "failed",
+            "code" => 404,
+            "message" => "Error! Sorry server could not process this request",
+            "data" => []
         ];
 
         // return the custom in JSON format
@@ -121,10 +129,11 @@ class AcceptController extends Controller
           // Call the fetchAAccept method of AcceptRepository
           $accept = $this->accept->fetchAAccept($id);
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
               "data" => $accept
           ];
 
@@ -133,10 +142,12 @@ class AcceptController extends Controller
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => []
           ];
 
           // return the custom in JSON format

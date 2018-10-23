@@ -6,6 +6,7 @@ use App\Accept;
 use App\Property;
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 use Carbon\Carbon;
 
 /**
@@ -32,7 +33,7 @@ class AcceptRepository
       $date_paid = "not paid";
       $status = "Unfinalized";
 
-      // Fetch the details of the particula property
+      // Fetch the details of the particular property
       $property = Property::whereId($request->property_id)->first();
 
       // Get the amount of the property

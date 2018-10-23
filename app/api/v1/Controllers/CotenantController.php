@@ -92,13 +92,13 @@ class CotenantController extends Controller
         // Call the Tenants method of CoTenantRepository
         $cotenants = $this->cotenant->cotenants();
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
+            "status" => "success",
+            "code" => 200,
+            "message" => "Ok",
             "data" => $cotenants
         ];
-
         // return the custom in JSON format
         return response()->json($response);
 
@@ -141,18 +141,35 @@ class CotenantController extends Controller
 
               $cotenant = "No data found: Tenant does not exist";
 
+              // Create a custom array as response
+              $response = [
+                  "status" => "failed",
+                  "code" => 404,
+                  "message" => $cotenant,
+                  "data" => []
+              ];
+
+
+              // return the custom in JSON format
+              return response()->json($response);
+
+          }else {
+
+            // Create a custom array as response
+            $response = [
+                "status" => "success",
+                "code" => 200,
+                "message" => "Ok",
+                "data" => $cotenant
+            ];
+
+
+            // return the custom in JSON format
+            return response()->json($response);
 
           }
 
-          // Create a custom response
-          $response = [
-              "success" => true,
-              "status" => 200,
-              "data" => $cotenant
-          ];
 
-          // return the custom in JSON format
-          return response()->json($response);
 
         } catch (\Exception $e) {
 
@@ -178,10 +195,11 @@ class CotenantController extends Controller
         // Call the updateTenant method of TenantRepository
         $cotenant = $this->cotenant->updateCoTenant($request);
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
+            "status" => "success",
+            "code" => 200,
+            "message" => "Update was successful",
             "data" => $cotenant
         ];
 

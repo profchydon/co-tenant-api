@@ -82,8 +82,9 @@ class AdminController extends Controller
 
         // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 201,
+            "status" => "successful",
+            "code" => 201,
+            "message" => "Admin was successfully created",
             "data" => $data
         ];
 
@@ -91,8 +92,8 @@ class AdminController extends Controller
 
         // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 201,
+            "status" => "failed",
+            "code" => 404,
             "message" => "Unauthorized. Only admins can perform this action",
             "data" => NULL
         ];
@@ -102,8 +103,8 @@ class AdminController extends Controller
 
         // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 401,
+            "status" => failed,
+            "code" => 404,
             "message" => "Oops! There was an error. Please try again",
             "data" => NULL
         ];
@@ -123,18 +124,21 @@ class AdminController extends Controller
 
           // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
-              "data" => "Unauthorized. Only admins are authorized to make this action"
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Unauthorized. Only admins can perform this action",
+              "data" => NULL
           ];
 
         }else {
 
             $matchTenant = $this->admin->matchTenantToProperty($request);
 
+            // Create a custom array as response
             $response = [
-                "success" => true,
-                "status" => 201,
+                "status" => "successful",
+                "code" => 200,
+                "message" => "Ok",
                 "data" => $matchTenant
             ];
 

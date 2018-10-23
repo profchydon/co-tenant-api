@@ -51,33 +51,41 @@ class PropertyController extends Controller
 
             if (!$isAdmin) {
 
-                $property = "Unauthorized to create a property. Only admins are allowed to make this action";
-                $status = 401;
+              // Create a custom array as response
+              $response = [
+                  "status" => "failed",
+                  "code" => 404,
+                  "message" => "Unauthorized. Only admins can perform this action",
+                  "data" => NULL
+              ];
+
 
             }else {
 
               // Call the create method of PropertyRepository
               $property = $this->property->create($request);
-              $status = 201;
+
+              // Create a custom array as response
+              $response = [
+                  "status" => "success",
+                  "code" => 201,
+                  "message" => "Property was successfully created",
+                  "data" => $property
+              ];
 
             }
-
-            // Create a custom array as response
-            $response = [
-                "success" => true,
-                "status" => $status,
-                "data" => $property
-            ];
 
             // return the custom in JSON format
             return response()->json($response);
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => failed,
+              "code" => 404,
+              "message" => "Oops! There was an error. Please try again",
+              "data" => NULL
           ];
 
           // return the custom in JSON format
@@ -98,13 +106,14 @@ class PropertyController extends Controller
       try {
 
         // Call the Properties method of PropertyRepository
-        $property = $this->property->properties();
+        $properties = $this->property->properties();
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $property
+            "status" => "success",
+            "code" => 200,
+            "message" => "Ok",
+            "data" => $properties
         ];
 
         // return the custom in JSON format
@@ -112,10 +121,12 @@ class PropertyController extends Controller
 
       } catch (\Exception $e) {
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => false,
-            "status" => 502,
+            "status" => failed,
+            "code" => 404,
+            "message" => "Oops! There was an error. Please try again",
+            "data" => NULL
         ];
 
         // return the custom in JSON format
@@ -142,22 +153,24 @@ class PropertyController extends Controller
           // Call the fetchAProperty method of PropertyRepository
           $property = $this->property->fetchAProperty($id);
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
               "data" => $property
           ];
-
           // return the custom in JSON format
           return response()->json($response);
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => failed,
+              "code" => 404,
+              "message" => "Oops! There was an error. Please try again",
+              "data" => NULL
           ];
 
           // return the custom in JSON format
@@ -175,34 +188,42 @@ class PropertyController extends Controller
 
           if (!$isAdmin) {
 
-              $property = "Unauthorized to update a property. Only admins are allowed to make this action";
-              $status = 401;
+            // Create a custom array as response
+            $response = [
+                "status" => "failed",
+                "code" => 404,
+                "message" => "Unauthorized. Only admins can perform this action",
+                "data" => NULL
+            ];
 
           }else {
 
             // Call the updateProperty method of PropertyRepository
             $property = $this->property->updateProperty($id, $request);
-            $status = 201;
+
+            // Create a custom array as response
+            $response = [
+                "status" => "success",
+                "code" => 200,
+                "message" => "Update successful",
+                "data" => $property
+            ];
 
           }
-
-          // Create a custom response
-          $response = [
-              "success" => true,
-              "status" => $status,
-              "data" => $property
-          ];
 
           // return the custom in JSON format
           return response()->json($response);
 
       } catch (\Exception $e) {
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => false,
-            "status" => 502,
+            "status" => failed,
+            "code" => 404,
+            "message" => "Oops! There was an error. Please try again",
+            "data" => NULL
         ];
+
 
         // return the custom in JSON format
         return response()->json($response);
