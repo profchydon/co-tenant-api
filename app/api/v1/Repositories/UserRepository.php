@@ -214,9 +214,18 @@ class UserRepository
     public function isUserActive($request)
     {
 
-        $user = User::whereEmail($request->email)->where('password' , Hash::make($request->password))->first();
+        try {
 
-        return $user->active ? true : false;
+          $user = User::whereEmail($request->email)->where('password' , Hash::make($request->password))->first();
+
+          return $user->active ? true : false;
+
+        } catch (\Exception $e) {
+
+          return "Oops! Sorry there was an error. Please try again";
+
+        }
+
 
     }
 

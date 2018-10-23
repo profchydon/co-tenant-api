@@ -23,41 +23,50 @@ class CotenantRepository
     public function create($request)
     {
 
-      // Begin a database transaction to create a property
-      DB::beginTransaction();
+        try {
 
-      // Create the tenant
-      $cotenant = Cotenant::create([
-        'user_id' => $request->user_id,
-        'co_gender' => $request->co_gender,
-        'religion' => $request->religion,
-        'co_religion' => $request->co_religion,
-        'smoke' => $request->smoke,
-        'co_smoke' => $request->co_smoke,
-        'disabled' => $request->disabled,
-        'co_disabled' => $request->co_disabled,
-        'location_1' => $request->location_1,
-        'location_2' => $request->location_2,
-        'work' => $request->work,
-        'salary' => $request->salary,
-        'rent' => $request->rent,
-        'duration' => $request->duration,
-      ]);
+          // Begin a database transaction to create a property
+          DB::beginTransaction();
 
-      if (!$cotenant) {
+          // Create the tenant
+          $cotenant = Cotenant::create([
+            'user_id' => $request->user_id,
+            'co_gender' => $request->co_gender,
+            'religion' => $request->religion,
+            'co_religion' => $request->co_religion,
+            'smoke' => $request->smoke,
+            'co_smoke' => $request->co_smoke,
+            'disabled' => $request->disabled,
+            'co_disabled' => $request->co_disabled,
+            'location_1' => $request->location_1,
+            'location_2' => $request->location_2,
+            'work' => $request->work,
+            'salary' => $request->salary,
+            'rent' => $request->rent,
+            'duration' => $request->duration,
+          ]);
 
-        // If creation of the tenant fails, roll back the database to its initial state
-        DB::rollback();
+          if (!$cotenant) {
 
-      }else {
+            // If creation of the tenant fails, roll back the database to its initial state
+            DB::rollback();
 
-        // If creation of the tenant is successful, then commit transaction
-        DB::commit();
+          }else {
 
-        // return the tenant created
-        return $cotenant;
+            // If creation of the tenant is successful, then commit transaction
+            DB::commit();
 
-      }
+            // return the tenant created
+            return $cotenant;
+
+          }
+
+        } catch (\Exception $e) {
+
+          return "Oops! Sorry there was an error. Please try again";
+
+        }
+
 
     }
 

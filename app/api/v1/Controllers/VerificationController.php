@@ -55,8 +55,9 @@ class VerificationController extends Controller
 
             // Create a custom array as response
             $response = [
-                "success" => true,
-                "status" => 201,
+                "status" => "success",
+                "code" => 200,
+                "message" => "Ok",
                 "data" => $verification
             ];
 
@@ -94,10 +95,11 @@ class VerificationController extends Controller
           // Call the fetchAVerification method of VerificationRepository
           $user = $this->verification->fetchAVerification($email);
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
               "data" => $user
           ];
 
@@ -130,53 +132,46 @@ class VerificationController extends Controller
     {
 
       // Generate a random code for verification
-      $code = rand(10000 , 99999);
+      $code = rand(1000 , 9999);
+      $code = (int)$code;
 
-      try {
+      // Call the updateVerification method of VerificationRepository
+      $verification = $this->verification->updateVerification($request->email, $code);
 
-        // Call the updateVerification method of VerificationRepository
-        $verification = $this->verification->updateVerification($request->email , $code);
+      if ($verification == "Email address not found") {
 
-        if ($verification) {
+          // Create a custom array as response
+          $response = [
+              "status" => "failed",
+              "code" => 409,
+              "message" => "Email address not found",
+              "data" => []
+          ];
 
-          // Fetch the updated data from the verification table
-          $verification = $this->verification->checkEmailExist($request->email);
+      }else {
 
-          $user = $this->user->fetchAUserUsingEmail($request->email);
+        // Fetch the updated data from the verification table
+        $verification = $this->verification->checkEmailExist($request->email);
 
-          $data['verification'] = $verification;
-          $data['user'] = $user;
+        $user = $this->user->fetchAUserUsingEmail($request->email);
 
+        $data['verification'] = $verification;
+        $data['user'] = $user;
 
-        }else {
-
-          $data = "Email does not exist";
-
-        }
-
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
+            "status" => "success",
+            "code" => 200,
+            "message" => "Ok",
             "data" => $data
         ];
 
-        // return the custom in JSON format
-        return response()->json($response);
-
-      } catch (\Exception $e) {
-
-        // Create a custom response
-        $response = [
-            "success" => false,
-            "status" => 502,
-        ];
-
-        // return the custom in JSON format
-        return response()->json($response);
       }
 
-    }
+      // return the custom in JSON format
+      return response()->json($response);
+
+  }
 
     public function verifyUser(Request $request)
     {
@@ -187,34 +182,28 @@ class VerificationController extends Controller
 
       if ($verification == "Oops!!! Verification code does not match") {
 
-        $data['verification'] = $verification;
-        $data['user'] = NULL;
-
+          // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
-              "data" => $data,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Verification code does not match",
+              "data" => NULL
           ];
 
-      }
+      }elseif ($verification == "Sorry..No record found attached to this email") {
 
-      if ($verification == "Sorry..No record found attached to this email") {
+          // Create a custom array as response
+          $response = [
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Sorry..No record found attached to this email",
+              "data" => NULL
+          ];
 
-        $data['verification'] = $verification;
-        $data['user'] = NULL;
+      }else {
 
-        $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $data,
-        ];
-
-      }
-
-      if ($verification) {
-
-        $data['verification'] = $verification;
-        $data['user'] = $user;
+          $data['verification'] = $verification;
+          $data['user'] = $user;
 
           // Update the active in the user table to 1, to indicate user has been verified
           $updateUserActive = $this->verification->updateUserActive($request->email);
@@ -222,10 +211,12 @@ class VerificationController extends Controller
           // Delete the verification details from database since verification is successful
           $deleteVerifiedDetail = $this->verification->deleteVerifiredRecord($request->email, $request->code);
 
+          // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
-              "data" => $data,
+              "status" => "success",
+              "code" => 200,
+              "message" => "Verification successful",
+              "data" => $data
           ];
 
       }

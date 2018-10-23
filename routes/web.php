@@ -32,6 +32,7 @@ Route::group(['prefix' => 'api/v1'], function () {
         Route::post('create' , ['as' => 'createUser', 'uses' => 'UserController@create']);
         Route::get('' , ['as' => 'allUsers', 'uses' => 'UserController@users']);
         Route::get('{id}' , ['as' => 'fetchAuser', 'uses' => 'UserController@fetchAUser']);
+        // Route::get('{email}' , ['as' => 'fetchAUserUsingEmail', 'uses' => 'UserController@fetchAUserUsingEmail']);
         Route::post('update' , ['as' => 'updateUser', 'uses' => 'UserController@updateUser']);
 
         Route::post('sendmail' , ['as' => 'sendMail', 'uses' => 'UserController@sendVerificationMail']);

@@ -54,29 +54,44 @@ class GroupController extends Controller
 
               $group = "Unauthorized. Only admins are allowed to make this action";
 
+              // Create a custom array as response
+              $response = [
+                  "status" => "failed",
+                  "code" => 404,
+                  "message" => $group,
+                  "data" => []
+              ];
+
+              // return the custom in JSON format
+              return response()->json($response);
+
           }else {
 
               // Call the create method of UserRepository
               $group = $this->group->create($request);
 
+              // Create a custom array as response
+              $response = [
+                  "status" => "success",
+                  "code" => 201,
+                  "message" => "Group was successfully created",
+                  "data" =>$group
+              ];
+
+              // return the custom in JSON format
+              return response()->json($response);
+
           }
 
-          // Create a custom array as response
-          $response = [
-              "success" => true,
-              "status" => 201,
-              "data" => $group
-          ];
-
-          // return the custom in JSON format
-          return response()->json($response);
 
       } catch (\Exception $e) {
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => false,
-            "status" => 502,
+            "status" => "failed",
+            "code" => 404,
+            "message" => "Error! Sorry server could not process this request",
+            "data" => []
         ];
 
         // return the custom in JSON format
@@ -98,10 +113,11 @@ class GroupController extends Controller
       // Call the users method of UserRepository
       $groups = $this->group->groups();
 
-      // Create a custom response
+      // Create a custom array as response
       $response = [
-          "success" => true,
-          "status" => 200,
+          "status" => "success",
+          "code" => 200,
+          "message" => "Ok",
           "data" => $groups
       ];
 
@@ -110,10 +126,12 @@ class GroupController extends Controller
 
     } catch (\Exception $e) {
 
-      // Create a custom response
+      // Create a custom array as response
       $response = [
-          "success" => false,
-          "status" => 502,
+          "status" => "failed",
+          "code" => 404,
+          "message" => "Error! Sorry server could not process this request",
+          "data" => []
       ];
 
       // return the custom in JSON format

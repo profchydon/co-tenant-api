@@ -67,40 +67,51 @@ class VerificationRepository
         // Verify if provided email exists in database
         $verification = $this->checkEmailExist($email);
 
-        if ($verification) {
+        if ($verification == NULL) {
 
-            $verification->where('email', $email)->update(['code' => $code]);
+            $verification = "Email address not found";
+
+            return $verification;
+
+        }elseif(!($verification == NULL)) {
+
+            $verification->whereEmail($email)->update(['code' => $code]);
+
+            return $verification;
 
         }
 
-        return $verification;
     }
 
     public function verifyUser($email, $code)
     {
 
-      // Verify if provided email exists in database
-      $checkIfEmailExists = $this->checkEmailExist($email);
+        // Verify if provided email exists in database
+        $checkIfEmailExists = $this->checkEmailExist($email);
 
-      if ($checkIfEmailExists == NULL) {
+        if ($checkIfEmailExists == NULL) {
 
-          $checkIfEmailExists = "Sorry..No record found attached to this email";
+            // If $checkIfEmailExists is NULL, then user email is not in the database
+            $checkIfEmailExists = "Sorry..No record found attached to this email";
 
-      }else {
+            return $checkIfEmailExists;
 
-        if ($checkIfEmailExists->code == $code) {
+        }elseif (!($checkIfEmailExists->code == $code)) {
 
-            $checkIfEmailExists = $checkIfEmailExists;
-
-        }else {
-
+            // If verification code does not match then return
             $checkIfEmailExists = "Oops!!! Verification code does not match";
 
-        }
+            return $checkIfEmailExists;
 
-      }
+          }elseif( !($checkIfEmailExists == NULL) && $checkIfEmailExists->code == $code ) {
 
-      return $checkIfEmailExists;
+              // If email exists, verify that the codes are same
+              $checkIfEmailExists = $checkIfEmailExists;
+
+              return $checkIfEmailExists;
+
+          }
+
 
     }
 

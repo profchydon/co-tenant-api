@@ -27,20 +27,26 @@ class AuthRepository
 
       try {
 
-        //Check if email exist
         $user = User::whereEmail($request->email)->first();
 
         // Check if passwords are equal
         $password = Hash::check($request->password, $user->password);
 
-        if(!$user || !$password){
+        if(!$user){
 
             // If email or password provided does not match
             $user = "Incorrect login details";
 
             return $user;
 
-        }elseif (!$this->isUserActive($request)) {
+        }elseif(!$password){
+
+            // If email or password provided does not match
+            $user = "Incorrect login details";
+
+            return $user;
+        }
+        elseif (!$this->isUserActive($request)) {
 
             $user = "User's account has not been verified";
 

@@ -66,7 +66,8 @@ class AdminController extends Controller
         if ($admin) {
 
             // Generate a random code for verification
-            $code = rand(10000 , 99999);
+            $code = rand(1000 , 9999);
+            $code = (int)$code;
 
             // Send verification code here
             // Code goes Here
@@ -153,9 +154,10 @@ class AdminController extends Controller
 
         // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => "Unauthorized. Only admins are authorized to make this action"
+            "status" => "failed",
+            "code" => 404,
+            "message" => "Unauthorized. Only admins are allowed to make this action",
+            "data" => []
         ];
 
       }else {
@@ -165,19 +167,21 @@ class AdminController extends Controller
 
           if ($cotenantRecords == "User does not exist") {
 
-              $response = [
-                  "success" => true,
-                  "status" => 401,
-                  "data" => $cotenantRecords
-              ];
+            $response = [
+                "status" => "failed",
+                "code" => 409,
+                "message" => $cotenantRecords,
+                "data" => []
+            ];
 
           }else {
 
-              $response = [
-                  "success" => true,
-                  "status" => 201,
-                  "data" => $cotenantRecords
-              ];
+            $response = [
+                "status" => "success",
+                "code" => 200,
+                "message" => "Ok",
+                "data" => $cotenantRecords
+            ];
 
           }
 

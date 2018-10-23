@@ -152,22 +152,24 @@ class UserController extends Controller
         // Call the users method of UserRepository
         $user = $this->user->users();
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
+            "status" => "success",
+            "code" => 200,
+            "message" => "Ok",
             "data" => $user
         ];
-
         // return the custom in JSON format
         return response()->json($response);
 
       } catch (\Exception $e) {
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => false,
-            "status" => 502,
+            "status" => "failed",
+            "code" => 404,
+            "message" => "Error! Sorry server could not process this request",
+            "data" => []
         ];
 
         // return the custom in JSON format
@@ -177,6 +179,33 @@ class UserController extends Controller
 
     }
 
+
+    /**
+     * Fetch a User
+     *
+     * @param int $email
+     *
+     * @return JSON
+     *
+     */
+    public function fetchAUserUsingEmail($email)
+    {
+
+      // Call the fetchAUserUsingEmail method of UserRepository
+      $user = $this->user->fetchAUserUsingEmail($email);
+
+      // Create a custom array as response
+      $response = [
+          "status" => "success",
+          "code" => 200,
+          "message" => "Ok",
+          "data" => $user
+      ];
+
+      // return the custom in JSON format
+      return response()->json($response);
+
+    }
 
     /**
      * Fetch a User
@@ -194,10 +223,11 @@ class UserController extends Controller
           // Call the fetchAUser method of UserRepository
           $user = $this->user->fetchAUser($id);
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
               "data" => $user
           ];
 
@@ -206,10 +236,12 @@ class UserController extends Controller
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => []
           ];
 
           // return the custom in JSON format
