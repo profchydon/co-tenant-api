@@ -11,6 +11,10 @@
 |
 */
 
+$router->get('/', function () use ($router) {
+    return view ('home');
+});
+
 Route::group(['prefix' => 'api/v1'], function () {
 
     // Matching route
