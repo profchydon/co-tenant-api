@@ -60,7 +60,7 @@ class UserController extends Controller
                 "status" => "failed",
                 "code" => 409,
                 "message" => $user,
-                "data" => []
+                "data" => {}
             ];
 
         }else{
@@ -118,7 +118,7 @@ class UserController extends Controller
               "status" => "failed",
               "code" => 404,
               "message" => $user,
-              "data" => []
+              "data" => {}
           ];
 
       }else {
@@ -169,7 +169,7 @@ class UserController extends Controller
             "status" => "failed",
             "code" => 404,
             "message" => "Error! Sorry server could not process this request",
-            "data" => []
+            "data" => {}
         ];
 
         // return the custom in JSON format
@@ -241,7 +241,7 @@ class UserController extends Controller
               "status" => "failed",
               "code" => 404,
               "message" => "Error! Sorry server could not process this request",
-              "data" => []
+              "data" => {}
           ];
 
           // return the custom in JSON format

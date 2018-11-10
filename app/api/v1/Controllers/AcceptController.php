@@ -61,7 +61,7 @@ class AcceptController extends Controller
               "status" => "failed",
               "code" => 404,
               "message" => "Error! Sorry server could not process this request",
-              "data" => []
+              "data" => {}
           ];
 
           // return the custom in JSON format
@@ -102,7 +102,7 @@ class AcceptController extends Controller
             "status" => "failed",
             "code" => 404,
             "message" => "Error! Sorry server could not process this request",
-            "data" => []
+            "data" => {}
         ];
 
         // return the custom in JSON format
@@ -147,7 +147,7 @@ class AcceptController extends Controller
               "status" => "failed",
               "code" => 404,
               "message" => "Error! Sorry server could not process this request",
-              "data" => []
+              "data" => {}
           ];
 
           // return the custom in JSON format

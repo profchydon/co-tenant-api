@@ -145,7 +145,7 @@ class VerificationController extends Controller
               "status" => "failed",
               "code" => 409,
               "message" => "Email address not found",
-              "data" => []
+              "data" => {}
           ];
 
       }else {
