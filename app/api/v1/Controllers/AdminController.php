@@ -161,7 +161,7 @@ class AdminController extends Controller
             "status" => "failed",
             "code" => 404,
             "message" => "Unauthorized. Only admins are allowed to make this action",
-            "data" => {}
+            "data" => []
         ];
 
       }else {
@@ -175,7 +175,7 @@ class AdminController extends Controller
                 "status" => "failed",
                 "code" => 409,
                 "message" => $cotenantRecords,
-                "data" => {}
+                "data" => []
             ];
 
           }else {

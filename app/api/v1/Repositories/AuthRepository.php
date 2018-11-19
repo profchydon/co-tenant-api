@@ -29,8 +29,13 @@ class AuthRepository
 
         $user = User::whereEmail($request->email)->first();
 
-        // Check if passwords are equal
-        $password = Hash::check($request->password, $user->password);
+        if (!($user === NULL)) {
+
+          // Check if passwords are equal
+          $password = Hash::check($request->password, $user->password);
+
+        }
+
 
         if(!$user){
 
