@@ -69,7 +69,7 @@ class CotenantController extends Controller
               "status" => "failed",
               "code" => 404,
               "message" => "Error! Sorry server could not process this request",
-              "data" => []
+              "data" => NULL
           ];
 
           // return the custom in JSON format
@@ -109,7 +109,7 @@ class CotenantController extends Controller
             "status" => "failed",
             "code" => 404,
             "message" => "Error! Sorry server could not process this request",
-            "data" => []
+            "data" => NULL
         ];
 
         // return the custom in JSON format
@@ -146,7 +146,7 @@ class CotenantController extends Controller
                   "status" => "failed",
                   "code" => 404,
                   "message" => $cotenant,
-                  "data" => []
+                  "data" => NULL
               ];
 
 
@@ -178,7 +178,7 @@ class CotenantController extends Controller
               "status" => "failed",
               "code" => 404,
               "message" => "Error! Sorry server could not process this request",
-              "data" => []
+              "data" => NULL
           ];
 
           // return the custom in JSON format
@@ -213,7 +213,7 @@ class CotenantController extends Controller
             "status" => "failed",
             "code" => 404,
             "message" => "Error! Sorry server could not process this request",
-            "data" => []
+            "data" => NULL
         ];
 
         // return the custom in JSON format
@@ -243,7 +243,7 @@ class CotenantController extends Controller
               "status" => "failed",
               "code" => 404,
               "message" => "Error! Sorry server could not process this request",
-              "data" => []
+              "data" => NULL
           ];
 
         }

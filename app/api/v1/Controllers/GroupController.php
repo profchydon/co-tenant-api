@@ -59,7 +59,7 @@ class GroupController extends Controller
                   "status" => "failed",
                   "code" => 404,
                   "message" => $group,
-                  "data" => []
+                  "data" => NULL
               ];
 
               // return the custom in JSON format
@@ -91,7 +91,7 @@ class GroupController extends Controller
             "status" => "failed",
             "code" => 404,
             "message" => "Error! Sorry server could not process this request",
-            "data" => []
+            "data" => NULL
         ];
 
         // return the custom in JSON format
@@ -131,7 +131,7 @@ class GroupController extends Controller
           "status" => "failed",
           "code" => 404,
           "message" => "Error! Sorry server could not process this request",
-          "data" => []
+          "data" => NULL
       ];
 
       // return the custom in JSON format

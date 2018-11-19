@@ -42,8 +42,9 @@ class OccupancyController extends Controller
 
             // Create a custom array as response
             $response = [
-                "success" => true,
-                "status" => 201,
+                "status" => "success",
+                "code" => 201,
+                "message" => "Occupancy successfully created",
                 "data" => $occupancy
             ];
 
@@ -52,10 +53,12 @@ class OccupancyController extends Controller
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => NULL
           ];
 
           // return the custom in JSON format
@@ -78,10 +81,11 @@ class OccupancyController extends Controller
         // Call the occupancys method of occupancyRepository
         $occupancies = $this->occupancy->occupancies();
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
+            "status" => "success",
+            "code" => 200,
+            "message" => "Ok",
             "data" => $occupancies
         ];
 
@@ -90,10 +94,12 @@ class OccupancyController extends Controller
 
       } catch (\Exception $e) {
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => false,
-            "status" => 502,
+            "status" => "failed",
+            "code" => 404,
+            "message" => "Error! Sorry server could not process this request",
+            "data" => NULL
         ];
 
         // return the custom in JSON format
@@ -120,10 +126,11 @@ class OccupancyController extends Controller
           // Call the fetchAOccupancy method of OccupancyRepository
           $occupancy = $this->occupancy->fetchAOccupancy($id);
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
               "data" => $occupancy
           ];
 
@@ -132,10 +139,12 @@ class OccupancyController extends Controller
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => NULL
           ];
 
           // return the custom in JSON format
@@ -161,10 +170,11 @@ class OccupancyController extends Controller
         // Call the updateOccupancy method of OccupancyRepository
         $occupancy = $this->occupancy->updateOccupancy($id, $request);
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
+            "status" => "success",
+            "code" => 200,
+            "message" => "Ok",
             "data" => $occupancy
         ];
 
@@ -173,10 +183,12 @@ class OccupancyController extends Controller
 
       } catch (\Exception $e) {
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => false,
-            "status" => 502,
+            "status" => "failed",
+            "code" => 404,
+            "message" => "Error! Sorry server could not process this request",
+            "data" => NULL
         ];
 
         // return the custom in JSON format

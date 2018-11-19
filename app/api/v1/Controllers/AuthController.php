@@ -43,7 +43,7 @@ class AuthController extends Controller
               "status" => "failed",
               "code" => 404,
               "message" => $auth,
-              "data" => []
+              "data" => NULL
           ];
 
       }elseif ($auth == "User's account has not been verified") {
@@ -53,7 +53,7 @@ class AuthController extends Controller
               "status" => "failed",
               "code" => 200,
               "message" => $auth,
-              "data" => []
+              "data" => NULL
           ];
 
       }else {

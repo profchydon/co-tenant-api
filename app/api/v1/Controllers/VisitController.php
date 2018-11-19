@@ -36,8 +36,9 @@ class VisitController extends Controller
 
           // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 201,
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
               "data" => $visit
           ];
 
@@ -91,10 +92,12 @@ class VisitController extends Controller
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => NULL
           ];
 
           // return the custom in JSON format

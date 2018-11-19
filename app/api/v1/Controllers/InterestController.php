@@ -42,20 +42,24 @@ class InterestController extends Controller
 
             // Create a custom array as response
             $response = [
-                "success" => true,
-                "status" => 201,
+                "status" => "success",
+                "code" => 201,
+                "message" => "Interest created successfully",
                 "data" => $interest
             ];
+
 
             // return the custom in JSON format
             return response()->json($response);
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => NULL
           ];
 
           // return the custom in JSON format
@@ -78,11 +82,12 @@ class InterestController extends Controller
         // Call the interests method of InterestRepository
         $interests = $this->interest->interests();
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => true,
-            "status" => 200,
-            "data" => $interests,
+            "status" => "success",
+            "code" => 200,
+            "message" => "Ok",
+            "data" => $interests
         ];
 
         // return the custom in JSON format
@@ -90,10 +95,12 @@ class InterestController extends Controller
 
       } catch (\Exception $e) {
 
-        // Create a custom response
+        // Create a custom array as response
         $response = [
-            "success" => false,
-            "status" => 502,
+            "status" => "failed",
+            "code" => 404,
+            "message" => "Error! Sorry server could not process this request",
+            "data" => NULL
         ];
 
         // return the custom in JSON format
@@ -118,24 +125,28 @@ class InterestController extends Controller
         try {
 
           // Call the fetchAInterest method of InterestRepository
-          $interests = $this->interest->fetchAInterest($id);
+          $interest = $this->interest->fetchAInterest($id);
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => true,
-              "status" => 200,
-              "data" => $interests
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
+              "data" => $interest
           ];
+
 
           // return the custom in JSON format
           return response()->json($response);
 
         } catch (\Exception $e) {
 
-          // Create a custom response
+          // Create a custom array as response
           $response = [
-              "success" => false,
-              "status" => 502,
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => NULL
           ];
 
           // return the custom in JSON format
