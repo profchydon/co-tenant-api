@@ -103,7 +103,7 @@ Route::group(['prefix' => 'api/v1'], function () {
     Route::group(['prefix' => 'interests'], function () {
         Route::post('create' , 'InterestController@create');
         Route::get('' , 'InterestController@interests');
-        Route::get('{id}' , 'InterestController@fetchAInterest');
+        Route::get('cotenant/{id}' , 'InterestController@allInterestsForTenant');
     });
 
     // Visits route

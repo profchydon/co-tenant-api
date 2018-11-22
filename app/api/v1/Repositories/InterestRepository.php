@@ -3,7 +3,9 @@
 namespace App\Api\v1\Repositories;
 
 use App\Interest;
+use App\Property;
 use Illuminate\Http\Request;
+use App\Api\v1\Repositories\PropertyRepository;
 use DB;
 
 /**
@@ -59,6 +61,43 @@ class InterestRepository
     {
       // Fetch interest with $id from database
       $interest = Interest::findOrfail($id);
+
+      // return interest
+      return $interest;
+
+    }
+
+
+    public function allInterestsForTenant($cotenant_id)
+    {
+      // Fetch interest with $id from database
+      $interests = Interest::where('cotenant_id' , $cotenant_id)->get();
+
+      $i = 0;
+
+      foreach ($interests as $key => $interest) {
+
+          $property[$i] = Property::findOrfail($interest->property_id);
+          $i++;
+      }
+
+      // return interest
+      return $property;
+
+    }
+
+    /**
+     * Fetch all Interests for a tenant
+     *
+     * @param int $id
+     *
+     * @return object $interest
+     *
+     */
+    public function allInterestForTenant($id)
+    {
+      // Fetch interest with $id from database
+      $interest = Interest::where('cotenant_id' , $id)->get();
 
       // return interest
       return $interest;

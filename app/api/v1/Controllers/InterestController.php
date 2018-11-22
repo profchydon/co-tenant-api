@@ -154,6 +154,49 @@ class InterestController extends Controller
         }
     }
 
+    /**
+     * Fetch a User
+     *
+     * @param int $id
+     *
+     * @return JSON
+     *
+     */
+    public function allInterestsForTenant($id)
+    {
+
+        try {
+
+          // Call the fetchAInterest method of InterestRepository
+          $interest = $this->interest->allInterestsForTenant($id);
+
+          // Create a custom array as response
+          $response = [
+              "status" => "success",
+              "code" => 200,
+              "message" => "Ok",
+              "data" => $interest
+          ];
+
+
+          // return the custom in JSON format
+          return response()->json($response);
+
+        } catch (\Exception $e) {
+
+          // Create a custom array as response
+          $response = [
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => NULL
+          ];
+
+          // return the custom in JSON format
+          return response()->json($response);
+        }
+    }
+
 
 }
 
