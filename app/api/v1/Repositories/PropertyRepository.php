@@ -150,8 +150,8 @@ class PropertyRepository
             }
             else {
 
-              $properties[$location_1] = Property::where('location' , $location_1)->get();
-              $properties[$location_2] = Property::where('location' , $location_2)->get();
+              $properties['location_1'] = Property::where('location' , $location_1)->get();
+              $properties['location_2'] = Property::where('location' , $location_2)->get();
               return $properties;
 
             }
