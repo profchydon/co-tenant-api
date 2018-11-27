@@ -19,16 +19,30 @@ class InterestRepository
 
       DB::beginTransaction();
 
-      $interest = Interest::create([
-        'property_id' => $request->property_id,
-        'cotenant_id' => $request->cotenant_id,
-      ]);
+      $interestExist = Interest::where('property_id' , $request->property_id)->where('cotenant_id', $request->cotenant_id)->get();
 
-      if (!$interest) {
-        DB::rollback();
-      }else {
-        DB::commit();
-        return $interest;
+      if (count($interestExist) == 0) {
+
+          $interest = Interest::create([
+            'property_id' => $request->property_id,
+            'cotenant_id' => $request->cotenant_id,
+          ]);
+
+          if (!$interest) {
+
+            DB::rollback();
+
+          }else {
+
+            DB::commit();
+            return $interest;
+
+          }
+
+      }elseif (count($interestExist) > 0) {
+
+          $interest = "You have already declared interest for this property";
+          return $interest;
       }
 
     }
@@ -101,6 +115,33 @@ class InterestRepository
 
       // return interest
       return $interest;
+
+    }
+
+
+
+    /**
+     * Delete an Interest for a tenant
+     *
+     * @param int $id
+     *
+     * @return object $interest
+     *
+     */
+    public function delete($request)
+    {
+
+      DB::beginTransaction();
+
+      $interest = $this->fetchAInterest($request->id);
+      $interest = $interest->delete();
+
+      if (!$interest) {
+        DB::rollback();
+      }else {
+        DB::commit();
+        return $interest;
+      }
 
     }
 

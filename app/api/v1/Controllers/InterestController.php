@@ -40,11 +40,69 @@ class InterestController extends Controller
             // Call the create method of InterestRepository
             $interest = $this->interest->create($request);
 
+            if ($interest == "You have already declared interest for this property") {
+
+              // Create a custom array as response
+              $response = [
+                  "status" => "failed",
+                  "code" => 409,
+                  "message" => $interest,
+                  "data" => NULL
+              ];
+
+            }else {
+
+              // Create a custom array as response
+              $response = [
+                  "status" => "success",
+                  "code" => 201,
+                  "message" => "Interest created successfully",
+                  "data" => $interest
+              ];
+
+            }
+
+            // return the custom in JSON format
+            return response()->json($response);
+
+        } catch (\Exception $e) {
+
+          // Create a custom array as response
+          $response = [
+              "status" => "failed",
+              "code" => 404,
+              "message" => "Error! Sorry server could not process this request",
+              "data" => NULL
+          ];
+
+          // return the custom in JSON format
+          return response()->json($response);
+
+        }
+
+    }
+
+
+    /**
+     * Delete an Interest
+     *
+     * @param object $request
+     *
+     * @return JSON
+     *
+     */
+    public function delete (Request $request)
+    {
+        try {
+
+            // Call the create method of InterestRepository
+            $interest = $this->interest->delete($request);
+
             // Create a custom array as response
             $response = [
                 "status" => "success",
-                "code" => 201,
-                "message" => "Interest created successfully",
+                "code" => 200,
+                "message" => "Interest deleted successfully",
                 "data" => $interest
             ];
 
