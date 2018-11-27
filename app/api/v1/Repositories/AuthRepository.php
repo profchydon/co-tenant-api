@@ -3,6 +3,11 @@
 namespace App\Api\v1\Repositories;
 
 use App\User;
+use App\Cotenant;
+use App\Accept;
+use App\Transaction;
+use App\Interest;
+use App\Visit;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Hash;
@@ -69,10 +74,31 @@ class AuthRepository
             // Update api_key in the user table for the particular user
             User::where('email', $request->email)->update(['api_key' => $apikey]);
 
-            //
             $user = User::whereEmail($request->email)->first();
 
-            return $user;
+            // Fetch the cotenant details
+            $cotenant = Cotenant::where('user_id', $user->id)->first();
+
+            // Fetch the cotenant's accept details
+            $accepts = Accept::where('cotenant_id' , $cotenant->id)->get();
+
+            // Fetch the cotenant's transaction details
+            $transactions = Transaction::where('cotenant_id' , $cotenant->id)->get();
+
+            // Fetch the cotenant's visit details
+            $visit = Visit::where('cotenant_id' , $cotenant->id)->get();
+
+            // Fetch the cotenant's interest details
+            $interest = Interest::where('cotenant_id' , $cotenant->id)->get();
+
+            $data['user'] = $user;
+            $data['cotenant'] = $cotenant;
+            $data['accepts'] = $accepts;
+            $data['transactions'] = $transactions;
+            $data['interest'] = $interest;
+            $data['visit'] = $visit;
+
+            return $data;
 
         }
 

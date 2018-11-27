@@ -133,8 +133,7 @@ class InterestRepository
 
       DB::beginTransaction();
 
-      $interest = $this->fetchAInterest($request->id);
-      $interest = $interest->delete();
+      $interest = Interest::where('property_id' , $request->property_id)->where('cotenant_id' , $request->cotenant_id)->delete();
 
       if (!$interest) {
         DB::rollback();
